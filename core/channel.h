@@ -1,0 +1,52 @@
+/*******************************************************
+ * Copyright (C) 2015 Andrés Solís Montero <andres@solism.ca>
+ *   PhD Candidate.
+ *   SITE, University of Ottawa
+ *   800 King Edward Ave.
+ *   Ottawa, On., K1N 6N5, Canada.
+ *******************************************************/
+
+
+#ifndef __core__channel__
+#define __core__channel__
+
+#include "opencv2/opencv.hpp"
+#include <deque>
+#include <condition_variable>
+
+using namespace std;
+using namespace cv;
+
+namespace core
+{
+    class BufferedImageChannel
+    {
+    private:
+        int _capacity;
+        bool _terminate;
+        std::deque<Mat> _images;
+        std::mutex _access_queue;
+        std::mutex _access_termination;
+        
+        std::condition_variable _consume;
+        std::condition_variable _produce;
+        
+    public:
+        void close();
+        
+        bool isOpen();
+        void addImage(Mat &image);
+        
+        bool empty();
+        
+        bool getFrame(Mat &image);
+        
+        BufferedImageChannel(int capacity = 10):
+        _capacity(capacity), _terminate(false)
+        {
+            
+        }
+    };
+}
+
+#endif
