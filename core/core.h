@@ -101,10 +101,9 @@ namespace core {
         
     public:
         
-        
-        Processor(int argc, const char * argv[]) :
-        _input(NULL),
-        _process(NULL),
+        Processor():
+        _input(new CameraInput(0, Size(-1,-1))),
+        _process(new NoneProcess()),
         _output(NULL),
         _inputWindowName("Input"),
         _outputWindowName("Process Output"),
@@ -112,7 +111,12 @@ namespace core {
         _showOutput(true),
         _mListener(false),
         _kListener(false),
+        _inputBufferSize(10),
+        _outputBufferSize(10),
         _showTimeInfo(false)
+        {}
+        
+        Processor(int argc, const char * argv[]) : Processor()
         {
           
         }
