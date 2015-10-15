@@ -95,6 +95,8 @@ namespace core {
         size_t _inputBufferSize;
         size_t _outputBufferSize;
         
+        bool _showTimeInfo;
+        
         static void mouseCallback(int event, int x, int y, int flags, void *ptr);
         
     public:
@@ -109,7 +111,8 @@ namespace core {
         _showInput(false),
         _showOutput(true),
         _mListener(false),
-        _kListener(false)
+        _kListener(false),
+        _showTimeInfo(false)
         {
           
         }
@@ -126,6 +129,10 @@ namespace core {
         void showInput(bool show = true)
         {
             _showInput = show;
+        }
+        void showTimeInfo(bool show = true)
+        {
+            _showTimeInfo = show;
         }
         void showOutput(bool show = true)
         {

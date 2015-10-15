@@ -144,6 +144,7 @@ void core::Processor::run()
             auto end_time = chrono::high_resolution_clock::now();
             auto duration = chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count();
             
+            if (_showTimeInfo)
             printf("I: [%.2f] P: [%.2f] O: [%.2f] \n",
                    _input_channel->getFrequency(),
                    1000.0/double(duration) ,
