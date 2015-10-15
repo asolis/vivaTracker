@@ -19,7 +19,12 @@ void core::ProcessInput::operator()()
     while (_channel->isOpen())
     {
         Mat frame;
+        auto start_time = chrono::high_resolution_clock::now();
         bool hasFrame = _input->getFrame(frame);
+        auto end_time = chrono::high_resolution_clock::now();
+        auto duration = chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count();
+        _channel->setFrequency(1000.0/double(duration));
+        
         if (!hasFrame || frame.empty())
             _channel->close();
         else
@@ -29,6 +34,7 @@ void core::ProcessInput::operator()()
         
     }
 }
+
 
 void core::ProcessOutput::operator()()
 {
@@ -45,11 +51,17 @@ void core::ProcessOutput::operator()()
             _channel->close();
         else
         {
+            auto start_time = chrono::high_resolution_clock::now();
             _output->writeFrame(frame);
+            auto end_time = chrono::high_resolution_clock::now();
+            auto duration = chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count();
+            _channel->setFrequency(1000.0/double(duration));
         }
         
     }
 }
+
+
 
 void core::Processor::mouseCallback(int event, int x, int y, int flags, void *ptr)
 {
@@ -98,7 +110,6 @@ void core::Processor::run()
     thread_guard gi(_inputThread);
     
     Ptr<BufferedImageChannel> _output_channel = new BufferedImageChannel(_outputBufferSize);
-    
     std::thread  _outputThread(ProcessOutput(_output, _output_channel));
     thread_guard go(_outputThread);
     
@@ -126,7 +137,18 @@ void core::Processor::run()
         {
             if (_showInput && !frame.empty())
                 cv::imshow(_inputWindowName, frame);
+            auto start_time = chrono::high_resolution_clock::now();
+
             _process->execute(frameN, frame, frameOut);
+            
+            auto end_time = chrono::high_resolution_clock::now();
+            auto duration = chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count();
+            
+            printf("I: [%.2f] P: [%.2f] O: [%.2f] \n",
+                   _input_channel->getFrequency(),
+                   1000.0/double(duration) ,
+                   _output_channel->getFrequency());
+            
             if (_showOutput && !frameOut.empty())
                 cv::imshow(_outputWindowName, frameOut);
             if (_output)

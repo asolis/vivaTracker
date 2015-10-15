@@ -47,11 +47,13 @@ namespace core {
     private:
         Ptr<Input> _input;
         Ptr<BufferedImageChannel> _channel;
+  
     public:
         ProcessInput(Ptr<Input> &input,
                      Ptr<BufferedImageChannel> &channel):
             _input(input), _channel(channel)
         {}
+
         void operator()();
     };
     
@@ -63,11 +65,13 @@ namespace core {
     private:
         Ptr<Output> _output;
         Ptr<BufferedImageChannel> _channel;
+
     public:
         ProcessOutput(Ptr<Output> &output,
                       Ptr<BufferedImageChannel> &channel):
             _output(output), _channel(channel)
         {}
+   
         void operator()();
     };
     

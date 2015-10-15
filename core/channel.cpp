@@ -66,3 +66,16 @@ bool core::BufferedImageChannel::getFrame(Mat &image)
     return true;
     
 }
+
+
+float core::BufferedImageChannel::getFrequency()
+{
+    std::lock_guard<std::mutex> guard(_access_fps);
+    return _fps;
+}
+
+void core::BufferedImageChannel::setFrequency(float frequency)
+{
+    std::lock_guard<std::mutex> guard(_access_fps);
+    _fps = frequency;
+}

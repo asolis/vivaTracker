@@ -19,7 +19,8 @@ int main(int argc, const char * argv[])
     
     Processor processor(argc, argv);
     
-    Ptr<Input> input = new CameraInput(0, Size(640,480), true);
+    //Ptr<Input> input = new CameraInput(0, Size(640,480), true);
+    Ptr<Input> input = new VideoInput("http://root:viva2014@173.220.183.156:8890/mjpg/video.mjpg");
     processor.setInput(input);
     
 

@@ -24,9 +24,12 @@ namespace core
     private:
         int _capacity;
         bool _terminate;
+        float _fps;
         std::deque<Mat> _images;
         std::mutex _access_queue;
         std::mutex _access_termination;
+        std::mutex _access_fps;
+        
         
         std::condition_variable _consume;
         std::condition_variable _produce;
@@ -40,9 +43,11 @@ namespace core
         bool empty();
         
         bool getFrame(Mat &image);
+        float getFrequency();
+        void setFrequency(float frequency);
         
         BufferedImageChannel(int capacity = 10):
-        _capacity(capacity), _terminate(false)
+        _capacity(capacity), _terminate(false), _fps(0)
         {
             
         }
