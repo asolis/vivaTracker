@@ -77,7 +77,7 @@ namespace viva
     
    
     enum class CODEC : int {
-        LIST = -1,
+		LIST = CV_FOURCC_PROMPT,
         MPG1  = CV_FOURCC_MACRO('P','I','M','1'),     //MPEG-1
         MJPEG = CV_FOURCC_MACRO('M','J','P','G'),     //Motion-jpeg
         MPEG42= CV_FOURCC_MACRO('M', 'P', '4', '2'),  //MPEG-4.2

@@ -22,7 +22,7 @@ namespace viva
     class BufferedImageChannel
     {
     private:
-        int _capacity;
+        size_t _capacity;
         bool _terminate;
         float _fps;
         std::deque<Mat> _images;
@@ -46,7 +46,7 @@ namespace viva
         float getFrequency();
         void setFrequency(float frequency);
         
-        BufferedImageChannel(int capacity = 10):
+        BufferedImageChannel(size_t capacity = 10):
         _capacity(capacity), _terminate(false), _fps(0)
         {
             

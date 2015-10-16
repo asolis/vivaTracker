@@ -25,7 +25,7 @@ void ProcessInput::operator()()
         bool hasFrame = _input->getFrame(frame);
         auto end_time = chrono::high_resolution_clock::now();
         auto duration = chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count();
-        _channel->setFrequency(1000.0/double(duration));
+        _channel->setFrequency((float)(1000.0/double(duration)));
         
         if (!hasFrame || frame.empty())
             _channel->close();
@@ -57,7 +57,7 @@ void ProcessOutput::operator()()
             _output->writeFrame(frame);
             auto end_time = chrono::high_resolution_clock::now();
             auto duration = chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count();
-            _channel->setFrequency(1000.0/double(duration));
+            _channel->setFrequency((float)(1000.0/double(duration)));
         }
         
     }
@@ -68,7 +68,7 @@ void ProcessOutput::operator()()
 void Processor::mouseCallback(int event, int x, int y, int flags, void *ptr)
 {
     MouseListener* listener = (MouseListener*)ptr;
-    if (listener != NULL)
+    if (listener)
     {
         listener->mouseInput(event, x, y, flags);
         

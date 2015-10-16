@@ -135,8 +135,8 @@ namespace viva {
         Processor():
         _input(new CameraInput(0, Size(-1,-1))),
         _process(new ProcessFrame()),
-        _output(NULL),
-        _functor(NULL),
+        _output(nullptr),
+        _functor(nullptr),
         _inputWindowName("Input"),
         _outputWindowName("Process Output"),
         _showInput(false),

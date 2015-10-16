@@ -9,9 +9,6 @@
 #ifndef __viva__utils__
 #define __viva__utils__
 
-#ifdef _MSC_VER
-#define NOMINMAX
-#endif
 
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
@@ -22,7 +19,8 @@
 #include <sys/types.h>
 
 #ifdef _MSC_VER
-	#include "direntVS.h"
+	#include "direntVS.h" 
+    #include <time.h>
 #else
 	#include <dirent.h>
 #endif

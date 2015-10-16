@@ -19,8 +19,8 @@ CameraInput::CameraInput(int device, const Size &size, bool grayscale ):
         _CameraInput.set(CV_CAP_PROP_FRAME_WIDTH, _size.width);
         _CameraInput.set(CV_CAP_PROP_FRAME_HEIGHT, _size.height);
     }
-    _size.width = _CameraInput.get(CV_CAP_PROP_FRAME_WIDTH);
-    _size.height = _CameraInput.get(CV_CAP_PROP_FRAME_HEIGHT);
+    _size.width = (int)_CameraInput.get(CV_CAP_PROP_FRAME_WIDTH);
+    _size.height = (int)_CameraInput.get(CV_CAP_PROP_FRAME_HEIGHT);
     
     _opened = _CameraInput.isOpened();
 }
@@ -51,8 +51,8 @@ VideoInput::VideoInput(const string &filename, const Size &size, bool grayscale 
         _CameraInput.set(CV_CAP_PROP_FRAME_WIDTH, _size.width);
         _CameraInput.set(CV_CAP_PROP_FRAME_HEIGHT, _size.height);
     }
-    _size.width = _CameraInput.get(CV_CAP_PROP_FRAME_WIDTH);
-    _size.height = _CameraInput.get(CV_CAP_PROP_FRAME_HEIGHT);
+    _size.width = (int)_CameraInput.get(CV_CAP_PROP_FRAME_WIDTH);
+    _size.height = (int)_CameraInput.get(CV_CAP_PROP_FRAME_HEIGHT);
     _opened = _CameraInput.isOpened();
 }
 VideoInput::VideoInput()
