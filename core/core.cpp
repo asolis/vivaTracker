@@ -99,10 +99,10 @@ void core::Processor::run()
         namedWindow(_inputWindowName,FLAGS);
     if (_showOutput)
         namedWindow(_outputWindowName, FLAGS);
-    if (_mListener)
+    if (_mListener && _process)
         cv::setMouseCallback(_outputWindowName, Processor::mouseCallback, _process);
     
-    if (!_input || !_process)
+    if (!_input && (!_process || !_functor))
         return;
     
     Ptr<BufferedImageChannel> _input_channel = new BufferedImageChannel(_inputBufferSize);
@@ -138,8 +138,11 @@ void core::Processor::run()
             if (_showInput && !frame.empty())
                 cv::imshow(_inputWindowName, frame);
             auto start_time = chrono::high_resolution_clock::now();
-
-            _process->execute(frameN, frame, frameOut);
+            
+            if (_functor)
+                _functor(frameN, frame, frameOut);
+            else if (_process)
+                _process->operator()(frameN, frame, frameOut);
             
             auto end_time = chrono::high_resolution_clock::now();
             auto duration = chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count();
@@ -166,7 +169,7 @@ void core::Processor::run()
                 freezeFrame = frame;
                 freezed = !freezed;
             }
-            if (_kListener && key != core::Keys::NONE)
+            if (_kListener && _process && key != core::Keys::NONE)
                 _process->keyboardInput(key);
             
             if (!freezed)

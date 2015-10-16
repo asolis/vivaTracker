@@ -56,29 +56,5 @@ namespace core
          */
         virtual void mouseMove(int x, int y, int flags){};
     };
-    
-    class GUIConfListener
-    {
-        
-    private:
-        GUIConfListener(){}
-        static bool initialized;
-        static void createNamedWindow()
-        {
-            cv::namedWindow(core::GUIConfListener::windowName, cv::WINDOW_NORMAL);
-        }
-    public:
-        static std::string windowName;
-        
-        static void addTrackbar(const std::string &name, int *variable, int max)
-        {
-            if (!core::GUIConfListener::initialized)
-            {
-                createNamedWindow();
-                core::GUIConfListener::initialized = true;
-            }
-            cv::createTrackbar(name, windowName, variable, max);
-        }
-    };
 }
 #endif /* defined(__h7__listener__) */

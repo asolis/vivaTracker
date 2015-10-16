@@ -10,9 +10,10 @@
 #define __core__h
 
 #include <thread>
+#include <functional>
 
 #include "input.h"
-#include "processframe.h"
+#include "listener.h"
 #include "output.h"
 #include "channel.h"
 
@@ -57,6 +58,31 @@ namespace core {
         void operator()();
     };
     
+    
+    class ProcessFrame : public MouseListener, public KeyboardListener
+    {
+    public:
+        virtual ~ProcessFrame(){}
+        virtual void operator()(size_t frameN, Mat &frame, Mat &output)
+        {
+            output = frame.clone();
+        };
+        
+        //Inherited from MouseListener. Check MouseListener class for details
+        virtual void mouseInput(int event, int x, int y, int flags){};
+        virtual void leftButtonDown(int x, int y, int flags){};
+        virtual void rightButtonDown(int x, int y, int flags){};
+        virtual void middleButtonDown(int x, int y, int flags){};
+        virtual void mouseMove(int x, int y, int flags){};
+        
+        //Inherited from KeyboardListerner. Check KeyboardListener class for details.
+        virtual void keyboardInput(int key){};
+        
+    };
+    
+    
+    
+    
     /*
      *  Parallel Processing Output and communicating through the channel
      */
@@ -83,6 +109,11 @@ namespace core {
         Ptr<ProcessFrame> _process;
         Ptr<Output>  _output;
         
+        
+        function<void(size_t frameN, Mat &frame, Mat &output)> _functor;
+        
+        
+        
         string _inputWindowName;
         string _outputWindowName;
         
@@ -103,8 +134,9 @@ namespace core {
         
         Processor():
         _input(new CameraInput(0, Size(-1,-1))),
-        _process(new NoneProcess()),
+        _process(new ProcessFrame()),
         _output(NULL),
+        _functor(NULL),
         _inputWindowName("Input"),
         _outputWindowName("Process Output"),
         _showInput(false),
@@ -158,11 +190,11 @@ namespace core {
         {
             _output = output;
         }
-        void addMouseListener()
+        void listenToMouseEvents()
         {
             _mListener = true;
         }
-        void addKeyboardListener()
+        void listenToKeyboardEvents()
         {
             _kListener = true;
         }
@@ -170,6 +202,12 @@ namespace core {
         {
             _process = process;
         }
+        
+        void setProcess(function<void(size_t frameN, Mat &frame, Mat &output)> functor)
+        {
+            _functor = functor;
+        }
+        
         void run();
 };
     

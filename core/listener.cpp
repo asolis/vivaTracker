@@ -7,7 +7,3 @@
  *******************************************************/
 
 #include "listener.h"
-
-
-std::string core::GUIConfListener::windowName = "Configurations";
-bool core::GUIConfListener::initialized = false;
