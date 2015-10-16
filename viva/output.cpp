@@ -8,21 +8,23 @@
 
 #include "output.h"
 
-core::ImageOutput::ImageOutput(const string &directory, int suffixSize,
+
+using namespace viva;
+ImageOutput::ImageOutput(const string &directory, int suffixSize,
                                const Size &size ,
                                bool grayscale,
                                int  conversionFlag) :
     Output(size, grayscale, conversionFlag),_base(directory), _ext(".jpg"),
     _sSize(suffixSize), _internalCount(0), _suffix(0)
 {
-    if (!core::Files::exists(_base))
-        core::Files::makeDir(_base);
+    if (!Files::exists(_base))
+        Files::makeDir(_base);
 }
 
-bool core::ImageOutput::writeFrame(Mat &frame)
+bool ImageOutput::writeFrame(Mat &frame)
 {
     std::stringstream ss;
-    ss << _base << core::Files::PATH_SEPARATOR << _suffix <<
+    ss << _base << Files::PATH_SEPARATOR << _suffix <<
         std::setfill('0') << std::setw(_sSize) << _internalCount << _ext;
     if (_grayscale && (frame.channels() == 3))
         cvtColor(frame, frame, _conversionFlag);
@@ -37,7 +39,7 @@ bool core::ImageOutput::writeFrame(Mat &frame)
 }
 
 
-void core::VideoOutput::createOutput()
+void VideoOutput::createOutput()
 {
     if (_size.width > 0 && _size.height > 0)
     {
@@ -50,7 +52,7 @@ void core::VideoOutput::createOutput()
     }
 }
 
-core::VideoOutput::VideoOutput(const string &filename,
+VideoOutput::VideoOutput(const string &filename,
                                Size size,
                                int fps,
                                CODEC codec,
@@ -61,7 +63,7 @@ core::VideoOutput::VideoOutput(const string &filename,
 {
     createOutput();
 }
-bool core::VideoOutput::writeFrame(Mat &frame)
+bool VideoOutput::writeFrame(Mat &frame)
 {
 	
     

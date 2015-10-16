@@ -6,8 +6,8 @@
  *   Ottawa, On., K1N 6N5, Canada.
  *******************************************************/
 
-#ifndef __core__h
-#define __core__h
+#ifndef __viva__h
+#define __viva__h
 
 #include <thread>
 #include <functional>
@@ -21,7 +21,7 @@
 using namespace std;
 using namespace cv;
 
-namespace core {
+namespace viva {
     
     class thread_guard
     {

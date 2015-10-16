@@ -7,13 +7,16 @@
  *******************************************************/
 
 #include "utils.h"
-const int core::Keys::ESC   = 27;
-const int core::Keys::TAB   = 9;
-const int core::Keys::SPACE = 32;
-const int core::Keys::NONE  = -1;
-const int core::Keys::c = 'c';
 
-string core::Files::tmpFilenameInFolder(const string &folder,
+using namespace viva;
+
+const int Keys::ESC   = 27;
+const int Keys::TAB   = 9;
+const int Keys::SPACE = 32;
+const int Keys::NONE  = -1;
+const int Keys::c = 'c';
+
+string Files::tmpFilenameInFolder(const string &folder,
                                   const string &ext)
 {
     stringstream ss;
@@ -25,7 +28,7 @@ string core::Files::tmpFilenameInFolder(const string &folder,
     return ss.str();
 }
 
-Rect core::Files::bestSquareFrom(Rect &rectangle)
+Rect Files::bestSquareFrom(Rect &rectangle)
 {
     Point2f center(rectangle.x + rectangle.width / 2,
                    rectangle.y + rectangle.height / 2);
@@ -34,33 +37,31 @@ Rect core::Files::bestSquareFrom(Rect &rectangle)
     return Rect(tl.x, tl.y, side, side);
 }
 
-void core::Files::saveSquaredIn(const Mat &image, string folder, int side)
+void Files::saveSquaredIn(const Mat &image, string folder, int side)
 {
     
     Mat ROI;
     if (image.rows != image.cols)
     {
         Rect rImage(0,0, image.cols, image.rows);
-        Rect rFinal = core::Files::bestSquareFrom(rImage);
+        Rect rFinal = Files::bestSquareFrom(rImage);
         ROI = image(rFinal).clone();
     }
     else
         image.copyTo(ROI);
-    //        if (image.rows != side)
-    //            resize(ROI, ROI, Size(side,side));
     imwrite(Files::tmpFilenameInFolder(folder), ROI);
     
 }
 
 
-const string core::Files::PATH_SEPARATOR =
+const string Files::PATH_SEPARATOR =
 #ifdef _WIN32
 "\\";
 #else
 "/";
 #endif
 
-void core::Files::listdir(const string &dirname, vector<string> &files, bool returnPaths)
+void Files::listdir(const string &dirname, vector<string> &files, bool returnPaths)
 {
     DIR *dp;
     dirent *d;
@@ -74,7 +75,7 @@ void core::Files::listdir(const string &dirname, vector<string> &files, bool ret
         {
             string ret;
             if (returnPaths)
-                ret = dirname + core::Files::PATH_SEPARATOR + d->d_name;
+                ret = dirname + Files::PATH_SEPARATOR + d->d_name;
             else
                 ret = d->d_name;
             
@@ -85,7 +86,7 @@ void core::Files::listdir(const string &dirname, vector<string> &files, bool ret
     sort(files.begin(), files.end());
 }
 
-void core::Files::listImages(const string &dirname, vector<string> &files, bool returnPaths)
+void Files::listImages(const string &dirname, vector<string> &files, bool returnPaths)
 {
     DIR *dp;
     dirent *d;
@@ -106,7 +107,7 @@ void core::Files::listImages(const string &dirname, vector<string> &files, bool 
             {
                 string ret;
                 if (returnPaths)
-                    ret = dirname + core::Files::PATH_SEPARATOR + d->d_name;
+                    ret = dirname + Files::PATH_SEPARATOR + d->d_name;
                 else
                     ret = d->d_name;
                 
@@ -120,7 +121,7 @@ void core::Files::listImages(const string &dirname, vector<string> &files, bool 
     sort(files.begin(), files.end());
 }
 
-bool core::Files::isDir(const string &fullpath)
+bool Files::isDir(const string &fullpath)
 {
     struct stat st;
     stat(fullpath.c_str(), &st);
@@ -130,7 +131,7 @@ bool core::Files::isDir(const string &fullpath)
         return false;
 }
         
-void core::Files::makeDir(const string &fullpath)
+void Files::makeDir(const string &fullpath)
 {
     if (!exists(fullpath))
     {
@@ -143,19 +144,19 @@ void core::Files::makeDir(const string &fullpath)
     }
 }
 
-bool core::Files::exists(const string &fullpath)
+bool Files::exists(const string &fullpath)
 {
     struct stat buffer;
     return (stat (fullpath.c_str(), &buffer) == 0);
 }
 
-void core::Files::getExtension(const string &filename, string &extension)
+void Files::getExtension(const string &filename, string &extension)
 {
     size_t index = filename.find_last_of(".");
     extension = filename.substr(index + 1);
 }
 
-void core::Files::getFilename(const string &path, string &filename)
+void Files::getFilename(const string &path, string &filename)
 {
     size_t index = path.find_last_of("/\\");
     filename = path.substr(index + 1);

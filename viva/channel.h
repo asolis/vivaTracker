@@ -7,8 +7,8 @@
  *******************************************************/
 
 
-#ifndef __core__channel__
-#define __core__channel__
+#ifndef __viva__channel__
+#define __viva__channel__
 
 #include "opencv2/opencv.hpp"
 #include <deque>
@@ -17,7 +17,7 @@
 using namespace std;
 using namespace cv;
 
-namespace core
+namespace viva
 {
     class BufferedImageChannel
     {

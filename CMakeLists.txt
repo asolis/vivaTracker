@@ -21,12 +21,12 @@ set(OpenCV_LIBRARIES "opencv_video;opencv_ts;opencv_imgproc;opencv_highgui;openc
 
 
 # add sub-directories
-subdirs(core)
-include_directories (${videoCapture_SOURCE_DIR}/core) 
+subdirs(viva)
+include_directories (${videoCapture_SOURCE_DIR}/viva) 
 # add executable
 add_executable(${project_name} main.cpp)
 
 
 # link libraries
 target_link_libraries( ${project_name} ${OpenCV_LIBRARIES})
-target_link_libraries( ${project_name}  CoreLib )
+target_link_libraries( ${project_name}  vivalib )

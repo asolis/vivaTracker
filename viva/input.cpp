@@ -8,9 +8,9 @@
 
 #include "input.h"
 
+using namespace viva;
 
-
-core::CameraInput::CameraInput(int device, const Size &size, bool grayscale ):
+CameraInput::CameraInput(int device, const Size &size, bool grayscale ):
     Input(size, grayscale)
 {
     _CameraInput = cv::VideoCapture(device);
@@ -24,12 +24,12 @@ core::CameraInput::CameraInput(int device, const Size &size, bool grayscale ):
     
     _opened = _CameraInput.isOpened();
 }
-core::CameraInput::~CameraInput()
+CameraInput::~CameraInput()
 {
     _CameraInput.release();
 }
 
-bool core::CameraInput::getFrame(Mat &frame)
+bool CameraInput::getFrame(Mat &frame)
 {
     if (!_opened || !_CameraInput.read(frame))
     {
@@ -42,7 +42,7 @@ bool core::CameraInput::getFrame(Mat &frame)
     return true;
 }
 
-core::VideoInput::VideoInput(const string &filename, const Size &size, bool grayscale ):
+VideoInput::VideoInput(const string &filename, const Size &size, bool grayscale ):
     Input(size, grayscale)
 {
     _CameraInput = cv::VideoCapture(filename);
@@ -55,16 +55,16 @@ core::VideoInput::VideoInput(const string &filename, const Size &size, bool gray
     _size.height = _CameraInput.get(CV_CAP_PROP_FRAME_HEIGHT);
     _opened = _CameraInput.isOpened();
 }
-core::VideoInput::VideoInput()
+VideoInput::VideoInput()
 {
     _CameraInput.release();
     _opened = false;
 }
-core::VideoInput::~VideoInput()
+VideoInput::~VideoInput()
 {
     _CameraInput.release();
 }
-bool core::VideoInput::getFrame(Mat &frame)
+bool VideoInput::getFrame(Mat &frame)
 {
     if (!_opened || !_CameraInput.read(frame))
     {
@@ -81,19 +81,19 @@ bool core::VideoInput::getFrame(Mat &frame)
 
 
 
-core::ImageListInput::ImageListInput(const string directory, const Size &size, bool grayscale, int loops ):
+ImageListInput::ImageListInput(const string directory, const Size &size, bool grayscale, int loops ):
 Input(Size(-1,-1), grayscale), _loops(loops)
 {
-    core::Files::listImages(directory, _filenames);
+    Files::listImages(directory, _filenames);
     initialize();
 }
-core::ImageListInput::ImageListInput(const vector<string> &files, const Size &size , bool grayscale  ,int loops ):
+ImageListInput::ImageListInput(const vector<string> &files, const Size &size , bool grayscale  ,int loops ):
 Input(size, grayscale), _filenames(files), _loops(loops)
 {
     initialize();
 }
 
-void core::ImageListInput::initialize()
+void ImageListInput::initialize()
 {
     if (_filenames.size() < 1)
     {
@@ -105,7 +105,7 @@ void core::ImageListInput::initialize()
     _opened = true;
 }
 
-bool core::ImageListInput::getFrame(Mat &frame)
+bool ImageListInput::getFrame(Mat &frame)
 {
     if (_it == _filenames.end() && (_loops > 0 || _loops < 0))
     {

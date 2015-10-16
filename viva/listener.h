@@ -6,14 +6,14 @@
  *   Ottawa, On., K1N 6N5, Canada.
  *******************************************************/
 
-#ifndef __core__listener__
-#define __core__listener__
+#ifndef __viva__listener__
+#define __viva__listener__
 
 #include <iostream>
 #include <string>
 #include "opencv2/opencv.hpp"
 
-namespace core
+namespace viva
 {
     class KeyboardListener
     {

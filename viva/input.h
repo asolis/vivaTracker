@@ -6,8 +6,8 @@
  *   Ottawa, On., K1N 6N5, Canada.
  *******************************************************/
 
-#ifndef __core__input__
-#define __core__input__
+#ifndef __viva__input__
+#define __viva__input__
 
 #include "opencv2/opencv.hpp"
 #include "utils.h"
@@ -16,7 +16,7 @@
 using namespace cv;
 using namespace std;
 
-namespace core
+namespace viva
 {
 
     class Input
@@ -29,7 +29,9 @@ namespace core
     public:
         Input(const Size &size = Size(-1, -1),
               bool grayscale   = false):
-            _grayscale(grayscale), _size(size), _conversionFlag(CV_RGB2GRAY){}
+            _grayscale(grayscale),
+            _size(size),
+            _conversionFlag(CV_RGB2GRAY){}
         
 
         virtual bool  getFrame(Mat &image) = 0;
@@ -106,4 +108,4 @@ namespace core
 
 
 
-#endif /* defined(__core__input__) */
+#endif /* defined(__viva__input__) */

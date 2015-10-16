@@ -6,10 +6,12 @@
  *   Ottawa, On., K1N 6N5, Canada.
  *******************************************************/
 
-#include "core.h"
+#include "viva.h"
+
+using namespace viva;
 
 
-void core::ProcessInput::operator()()
+void ProcessInput::operator()()
 {
     if (!_input)
     {
@@ -36,7 +38,7 @@ void core::ProcessInput::operator()()
 }
 
 
-void core::ProcessOutput::operator()()
+void ProcessOutput::operator()()
 {
     if (!_output)
     {
@@ -63,7 +65,7 @@ void core::ProcessOutput::operator()()
 
 
 
-void core::Processor::mouseCallback(int event, int x, int y, int flags, void *ptr)
+void Processor::mouseCallback(int event, int x, int y, int flags, void *ptr)
 {
     MouseListener* listener = (MouseListener*)ptr;
     if (listener != NULL)
@@ -90,7 +92,7 @@ void core::Processor::mouseCallback(int event, int x, int y, int flags, void *pt
 }
 
 
-void core::Processor::run()
+void Processor::run()
 {
     
     int FLAGS = CV_GUI_NORMAL | CV_WINDOW_AUTOSIZE;
@@ -159,17 +161,17 @@ void core::Processor::run()
                 _output_channel->addImage(frameOut);
             
             int key = waitKey(1);
-            if (key == core::Keys::ESC)
+            if (key == Keys::ESC)
             {
                 _input_channel->close();
                 _output_channel->close();
             }
-            if (key == core::Keys::SPACE)
+            if (key == Keys::SPACE)
             {
                 freezeFrame = frame;
                 freezed = !freezed;
             }
-            if (_kListener && _process && key != core::Keys::NONE)
+            if (_kListener && _process && key != Keys::NONE)
                 _process->keyboardInput(key);
             
             if (!freezed)

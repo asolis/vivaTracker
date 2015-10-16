@@ -8,8 +8,9 @@
 
 #include "channel.h"
 
+using namespace viva;
 
-void core::BufferedImageChannel::close()
+void BufferedImageChannel::close()
 {
     std::lock_guard<std::mutex> guard(_access_termination);
     _terminate = true;
@@ -17,13 +18,13 @@ void core::BufferedImageChannel::close()
     _produce.notify_all();
 }
 
-bool core::BufferedImageChannel::isOpen()
+bool BufferedImageChannel::isOpen()
 {
     std::lock_guard<std::mutex> guard(_access_termination);
     return !_terminate;
 }
 
-void core::BufferedImageChannel::addImage(Mat &image)
+void BufferedImageChannel::addImage(Mat &image)
 {
     
     std::unique_lock<std::mutex> guard(_access_queue);
@@ -41,13 +42,13 @@ void core::BufferedImageChannel::addImage(Mat &image)
     _consume.notify_one();
 }
 
-bool core::BufferedImageChannel::empty()
+bool BufferedImageChannel::empty()
 {
     std::lock_guard<std::mutex> guard(_access_queue);
     return _images.empty();
 }
 
-bool core::BufferedImageChannel::getFrame(Mat &image)
+bool BufferedImageChannel::getFrame(Mat &image)
 {
     std::unique_lock<std::mutex> guard(_access_queue);
     _consume.wait(guard, [&] {
@@ -68,13 +69,13 @@ bool core::BufferedImageChannel::getFrame(Mat &image)
 }
 
 
-float core::BufferedImageChannel::getFrequency()
+float BufferedImageChannel::getFrequency()
 {
     std::lock_guard<std::mutex> guard(_access_fps);
     return _fps;
 }
 
-void core::BufferedImageChannel::setFrequency(float frequency)
+void BufferedImageChannel::setFrequency(float frequency)
 {
     std::lock_guard<std::mutex> guard(_access_fps);
     _fps = frequency;

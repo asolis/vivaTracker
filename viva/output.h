@@ -6,8 +6,8 @@
  *   Ottawa, On., K1N 6N5, Canada.
  *******************************************************/
 
-#ifndef __core__output__
-#define __core__output__
+#ifndef __viva__output__
+#define __viva__output__
 
 #include "opencv2/opencv.hpp"
 #include <iomanip>
@@ -16,7 +16,7 @@
 using namespace cv;
 using namespace std;
 
-namespace core
+namespace viva
 {
     class Output
     {
@@ -125,4 +125,4 @@ namespace core
 }
 
 
-#endif /* defined(__core__output__) */
+#endif /* defined(__viva__output__) */

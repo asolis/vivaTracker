@@ -6,8 +6,8 @@
  *   Ottawa, On., K1N 6N5, Canada.
  *******************************************************/
 
-#ifndef __core__utils__
-#define __core__utils__
+#ifndef __viva__utils__
+#define __viva__utils__
 
 #ifdef _MSC_VER
 #define NOMINMAX
@@ -30,7 +30,7 @@
 using namespace std;
 using namespace cv;
 
-namespace core
+namespace viva
 {
     struct Keys
     {
@@ -72,5 +72,5 @@ namespace core
 
 }
 
-#endif /* defined(__core__utils__) */
+#endif /* defined(__viva__utils__) */
 
