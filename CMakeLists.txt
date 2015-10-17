@@ -24,7 +24,12 @@ set(OpenCV_LIBRARIES "opencv_video;opencv_ts;opencv_imgproc;opencv_highgui;openc
 subdirs(viva)
 include_directories (${vivaVideo_SOURCE_DIR}/viva) 
 # add executable
-add_executable(${project_name} main.cpp)
+
+file(GLOB project_files
+	"*.h"
+	"*.cpp"
+)
+add_executable(${project_name} ${project_files})
 
 
 # link libraries
