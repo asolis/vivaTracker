@@ -1,9 +1,9 @@
-# cmake videoVideo
+# cmake vivaVideo
 # set minimum required version for cmake
 cmake_minimum_required(VERSION 2.8)
 
 # define the project name
-set(project_name "videoVideo")
+set(project_name "vivaVideo")
 
 # set the project namee
 project("${project_name}")
@@ -22,7 +22,7 @@ set(OpenCV_LIBRARIES "opencv_video;opencv_ts;opencv_imgproc;opencv_highgui;openc
 
 # add sub-directories
 subdirs(viva)
-include_directories (${videoVideo_SOURCE_DIR}/viva) 
+include_directories (${vivaVideo_SOURCE_DIR}/viva) 
 # add executable
 add_executable(${project_name} main.cpp)
 
