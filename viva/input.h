@@ -78,8 +78,16 @@ namespace viva
         bool getFrame(Mat &frame);
     };
     
+    class WebStreamInput: public VideoInput
+    {
+    public:
+        WebStreamInput(const string &url, const Size &size = Size(-1,-1), int colorFlag = -1):
+        VideoInput(url, size, colorFlag) {}
+    };
+    
     class SequenceInput: public VideoInput
     {
+    public:
         SequenceInput(const string &sequence, const Size &size = Size(-1,-1), int colorFlag = -1):
         VideoInput(sequence, size, colorFlag) {}
     };
