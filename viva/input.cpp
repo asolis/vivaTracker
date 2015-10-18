@@ -10,8 +10,8 @@
 
 using namespace viva;
 
-CameraInput::CameraInput(int device, const Size &size, bool grayscale ):
-    Input(size, grayscale)
+CameraInput::CameraInput(int device, const Size &size, int colorFlag ):
+    Input(size, colorFlag)
 {
     _CameraInput = cv::VideoCapture(device);
     if (_size.width > 0 && _size.height > 0)
@@ -36,14 +36,14 @@ bool CameraInput::getFrame(Mat &frame)
         _opened = false;
         return false;
     }
-    if (frame.channels() > 1 && _grayscale)
+    if (_convert)
         cvtColor(frame, frame, _conversionFlag);
     
     return true;
 }
 
-VideoInput::VideoInput(const string &filename, const Size &size, bool grayscale ):
-    Input(size, grayscale)
+VideoInput::VideoInput(const string &filename, const Size &size, int colorFlag ):
+    Input(size, colorFlag)
 {
     _CameraInput = cv::VideoCapture(filename);
     if (_size.width > 0 && _size.height > 0)
@@ -71,24 +71,21 @@ bool VideoInput::getFrame(Mat &frame)
         _opened = false;
         return false;
     }
-    if (frame.channels() > 1 && _grayscale)
+    if (_convert)
         cvtColor(frame, frame, _conversionFlag);
     
     return true;
 }
 
 
-
-
-
-ImageListInput::ImageListInput(const string directory, const Size &size, bool grayscale, int loops ):
-Input(Size(-1,-1), grayscale), _loops(loops)
+ImageListInput::ImageListInput(const string directory, const Size &size, int colorFlag, int loops ):
+Input(Size(-1,-1), colorFlag), _loops(loops)
 {
     Files::listImages(directory, _filenames);
     initialize();
 }
-ImageListInput::ImageListInput(const vector<string> &files, const Size &size , bool grayscale  ,int loops ):
-Input(size, grayscale), _filenames(files), _loops(loops)
+ImageListInput::ImageListInput(const vector<string> &files, const Size &size , int colorFlag  ,int loops ):
+Input(size, colorFlag), _filenames(files), _loops(loops)
 {
     initialize();
 }
@@ -114,15 +111,15 @@ bool ImageListInput::getFrame(Mat &frame)
     }
     if (_it!= _filenames.end())
     {
-        if (_grayscale)
-            frame = imread(*_it,CV_LOAD_IMAGE_GRAYSCALE);
-        else
-            frame = imread(*_it);
+        frame = imread(*_it);
         
         if (_size.width > 0 && _size.height > 0)
         {
             resize(frame, frame, _size);
         }
+        if (_convert)
+            cvtColor(frame, frame, _conversionFlag);
+        
         _size.width  = frame.cols;
         _size.height = frame.rows;
         _it++;

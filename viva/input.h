@@ -22,18 +22,19 @@ namespace viva
     class Input
     {
     protected:
-        bool _grayscale;
         Size _size;
+        bool _convert;
         int _conversionFlag;
         
     public:
         Input(const Size &size = Size(-1, -1),
-              bool grayscale   = false):
-            _grayscale(grayscale),
-            _size(size),
-            _conversionFlag(CV_RGB2GRAY){}
+              int conversionFlag = -1):
+                _size(size), _convert(false), _conversionFlag(conversionFlag)
+        {
+            if (_conversionFlag != -1)
+                _convert = true;
+        }
         
-
         virtual bool  getFrame(Mat &image) = 0;
         virtual ~Input(){}
         
@@ -58,7 +59,7 @@ namespace viva
         VideoCapture _CameraInput;
         bool _opened;
     public:
-        CameraInput(int device = 0, const Size &size = Size(-1,-1), bool grayscale = false);
+        CameraInput(int device = 0, const Size &size = Size(-1,-1), int colorFlag = -1);
         ~CameraInput();
         bool getFrame(Mat &frame);
         
@@ -71,10 +72,16 @@ namespace viva
         bool _opened;
     public:
         
-        VideoInput(const string &filename, const Size &size = Size(-1,-1), bool grayscale = false);
+        VideoInput(const string &filename, const Size &size = Size(-1,-1), int colorFlag = -1);
         VideoInput();
         ~VideoInput();
         bool getFrame(Mat &frame);
+    };
+    
+    class SequenceInput: public VideoInput
+    {
+        SequenceInput(const string &sequence, const Size &size = Size(-1,-1), int colorFlag = -1):
+        VideoInput(sequence, size, colorFlag) {}
     };
     
     
@@ -91,11 +98,11 @@ namespace viva
     public:
         ImageListInput(const string directory,
                        const Size &size = Size(-1,-1),
-                       bool grayscale = false,
+                       int colorFlag = -1,
                        int loops = 1);
         ImageListInput(const vector<string> &files,
                        const Size &size = Size(-1,-1),
-                       bool grayscale = false ,
+                       int colorFlag = -1,
                        int loops = 1);
         
         bool getFrame(Mat &frame);
