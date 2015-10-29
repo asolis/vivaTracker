@@ -1,9 +1,9 @@
-# cmake vivaVideo
+# cmake vivaTracker
 # set minimum required version for cmake
 cmake_minimum_required(VERSION 2.8)
 
 # define the project name
-set(project_name "vivaVideo")
+set(project_name "vivaTracker")
 
 # set the project namee
 project("${project_name}")
@@ -21,8 +21,13 @@ set(OpenCV_LIBRARIES "opencv_video;opencv_ts;opencv_imgproc;opencv_highgui;openc
 
 
 # add sub-directories
-subdirs(viva)
-include_directories (${vivaVideo_SOURCE_DIR}/viva) 
+subdirs(viva trackers)
+
+include_directories (${vivaTracker_SOURCE_DIR}/viva) 
+include_directories (${vivaTracker_SOURCE_DIR}/trackers)
+include_directories(${vivaTracker_SOURCE_DIR}/trackers/SKCFDCF)
+
+
 # add executable
 
 file(GLOB project_files
@@ -34,4 +39,4 @@ add_executable(${project_name} ${project_files})
 
 # link libraries
 target_link_libraries( ${project_name} ${OpenCV_LIBRARIES})
-target_link_libraries( ${project_name}  vivalib )
+target_link_libraries( ${project_name}  vivalib trackerlib skcflib )
