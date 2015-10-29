@@ -1,9 +1,9 @@
-# cmake videoCapture
+# cmake vivaVideo
 # set minimum required version for cmake
 cmake_minimum_required(VERSION 2.8)
 
 # define the project name
-set(project_name "videoCapture")
+set(project_name "vivaVideo")
 
 # set the project namee
 project("${project_name}")
@@ -22,9 +22,14 @@ set(OpenCV_LIBRARIES "opencv_video;opencv_ts;opencv_imgproc;opencv_highgui;openc
 
 # add sub-directories
 subdirs(viva)
-include_directories (${videoCapture_SOURCE_DIR}/viva) 
+include_directories (${vivaVideo_SOURCE_DIR}/viva) 
 # add executable
-add_executable(${project_name} main.cpp)
+
+file(GLOB project_files
+	"*.h"
+	"*.cpp"
+)
+add_executable(${project_name} ${project_files})
 
 
 # link libraries

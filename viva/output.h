@@ -22,16 +22,18 @@ namespace viva
     {
     protected:
         Size _size;
-        bool _grayscale;
+        bool _convert;
         int  _conversionFlag;
     public:
         Output(const Size &size = Size(-1, -1),
-               bool grayscale = false,
-               int  conversionFlag = CV_RGB2GRAY):
+               int  conversionFlag = -1):
                 _size(size),
-                _grayscale(grayscale),
+                _convert(false),
                 _conversionFlag(conversionFlag)
-        {}
+        {
+            if (conversionFlag != -1)
+                _convert = true;
+        }
         virtual ~Output(){}
         virtual bool  writeFrame(Mat &frame)= 0;
         virtual void  close() {}
@@ -42,8 +44,8 @@ namespace viva
     class NoneOutput : public Output
     {
     public:
-        NoneOutput(const Size &size = Size(-1, -1), bool grayscale = false):
-            Output(size,grayscale)
+        NoneOutput(const Size &size = Size(-1, -1), int colorFlag = -1):
+            Output(size,colorFlag)
         {}
         bool writeFrame(Mat &frame)
         {
@@ -65,10 +67,9 @@ namespace viva
     public:
         
         ImageOutput(const string &directory,
-                    int suffixSize = 5,
                     const Size &size = Size(-1, -1),
-                    bool grayscale = false,
-                    int  conversionFlag = CV_RGB2GRAY);
+                    int suffixSize = 5,
+                    int  conversionFlag = -1);
         
         virtual bool writeFrame(Mat &frame);
         
@@ -104,8 +105,7 @@ namespace viva
                     Size size   = Size(-1,-1),
                     int fps     = 30,
                     CODEC codec = CODEC::MPEG4,
-                    bool grayscale = false,
-                    int  conversionFlag = CV_RGB2GRAY);
+                    int codeFlag = -1);
         
         virtual bool writeFrame(Mat &frame);
         

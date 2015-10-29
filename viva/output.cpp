@@ -10,11 +10,8 @@
 
 
 using namespace viva;
-ImageOutput::ImageOutput(const string &directory, int suffixSize,
-                               const Size &size ,
-                               bool grayscale,
-                               int  conversionFlag) :
-    Output(size, grayscale, conversionFlag),_base(directory), _ext(".jpg"),
+ImageOutput::ImageOutput(const string &directory,const Size &size , int suffixSize, int  conversionFlag) :
+    Output(size, conversionFlag),_base(directory), _ext(".jpg"),
     _sSize(suffixSize), _internalCount(0), _suffix(0)
 {
     if (!Files::exists(_base))
@@ -26,7 +23,7 @@ bool ImageOutput::writeFrame(Mat &frame)
     std::stringstream ss;
     ss << _base << Files::PATH_SEPARATOR << _suffix <<
         std::setfill('0') << std::setw(_sSize) << _internalCount << _ext;
-    if (_grayscale && (frame.channels() == 3))
+    if (_convert)
         cvtColor(frame, frame, _conversionFlag);
     if (_size.width > 0 && _size.height > 0)
     {
@@ -56,9 +53,8 @@ VideoOutput::VideoOutput(const string &filename,
                                Size size,
                                int fps,
                                CODEC codec,
-                               bool grayscale,
-                               int  conversionFlag ):
-    Output(size, grayscale, conversionFlag), _opened(false),
+                               int codeFlag ):
+    Output(size, codeFlag), _opened(false),
     _fps(fps), _filename(filename), _codec(codec)
 {
     createOutput();
@@ -76,7 +72,7 @@ bool VideoOutput::writeFrame(Mat &frame)
     Mat tmp;
 	if (_size != frame.size())
 		resize(frame, frame, _size);
-    if (_grayscale)
+    if (_convert)
         cvtColor(frame, frame, _conversionFlag);
 	
 	output << frame;

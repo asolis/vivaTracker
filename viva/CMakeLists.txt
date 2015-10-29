@@ -1,5 +1,5 @@
 # cmake vivalib
-include_directories(${videoCapture_SOURCE_DIR}/viva)
+include_directories(${vivaVideo_SOURCE_DIR}/viva)
 
 file(GLOB viva_files
 	"*.h"
