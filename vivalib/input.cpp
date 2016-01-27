@@ -10,50 +10,32 @@
 
 using namespace viva;
 
-CameraInput::CameraInput(int device, const Size &size, int colorFlag ):
-    Input(size, colorFlag)
+VideoInput::VideoInput(const int device, const Size &size, int colorFlag) :
+Input(size, colorFlag)
 {
-    _CameraInput = cv::VideoCapture(device);
+    _CameraInput.open(device);
     if (_size.width > 0 && _size.height > 0)
     {
         _CameraInput.set(CV_CAP_PROP_FRAME_WIDTH, _size.width);
         _CameraInput.set(CV_CAP_PROP_FRAME_HEIGHT, _size.height);
     }
-    _size.width = (int)_CameraInput.get(CV_CAP_PROP_FRAME_WIDTH);
-    _size.height = (int)_CameraInput.get(CV_CAP_PROP_FRAME_HEIGHT);
     
     _opened = _CameraInput.isOpened();
 }
-CameraInput::~CameraInput()
-{
-    _CameraInput.release();
-}
 
-bool CameraInput::getFrame(Mat &frame)
-{
-    if (!_opened || !_CameraInput.read(frame))
-    {
-        _opened = false;
-        return false;
-    }
-    if (_convert)
-        cvtColor(frame, frame, _conversionFlag);
-    
-    return true;
-}
+
 
 VideoInput::VideoInput(const string &filename, const Size &size, int colorFlag ):
     Input(size, colorFlag)
 {
-    _CameraInput = cv::VideoCapture(filename);
+    _CameraInput.open(filename);
     if (_size.width > 0 && _size.height > 0)
     {
         _CameraInput.set(CV_CAP_PROP_FRAME_WIDTH, _size.width);
         _CameraInput.set(CV_CAP_PROP_FRAME_HEIGHT, _size.height);
     }
-    _size.width = (int)_CameraInput.get(CV_CAP_PROP_FRAME_WIDTH);
-    _size.height = (int)_CameraInput.get(CV_CAP_PROP_FRAME_HEIGHT);
-    _opened = _CameraInput.isOpened();
+	
+	_opened = _CameraInput.isOpened();
 }
 VideoInput::VideoInput()
 {
@@ -66,20 +48,42 @@ VideoInput::~VideoInput()
 }
 bool VideoInput::getFrame(Mat &frame)
 {
-    if (!_opened || !_CameraInput.read(frame))
+
+    if (!_opened || !_CameraInput.grab())
     {
         _opened = false;
         return false;
     }
-    if (_convert)
-        cvtColor(frame, frame, _conversionFlag);
+	_CameraInput.retrieve(frame);
+	_orgSize = frame.size();
+	if (_size.width < 0 && _size.height < 0)
+	{
+
+	}
+	else if (_size.width < 0 && _size.height > 0)
+	{
+		resize(frame, frame, Size(_orgSize.width*_size.height / _orgSize.height, _size.height));
+	}
+	else if (_size.width > 0 && _size.height < 0)
+	{
+		resize(frame, frame, Size(_size.width, _orgSize.height * _size.width / _orgSize.width));
+	}
+	else if (_size.width != frame.cols && _size.height != frame.rows)
+	{
+		resize(frame, frame, _size);
+	}
+	if (_convert)
+		cvtColor(frame, frame, _conversionFlag);
+
+
+       
     
     return true;
 }
 
 
 ImageListInput::ImageListInput(const string directory, const Size &size, int colorFlag, int loops ):
-Input(Size(-1,-1), colorFlag), _loops(loops)
+Input(size, colorFlag), _loops(loops)
 {
     Files::listImages(directory, _filenames);
     initialize();
@@ -112,8 +116,21 @@ bool ImageListInput::getFrame(Mat &frame)
     if (_it!= _filenames.end())
     {
         frame = imread(*_it);
-        
-        if (_size.width > 0 && _size.height > 0)
+
+		_orgSize = frame.size();
+		if (_size.width < 0 && _size.height < 0)
+		{
+
+		}
+		else if (_size.width < 0 && _size.height > 0)
+		{
+			resize(frame, frame, Size(_orgSize.width*_size.height / _orgSize.height, _size.height));
+		}
+		else if (_size.width > 0 && _size.height < 0)
+		{
+			resize(frame, frame, Size(_size.width, _orgSize.height * _size.width / _orgSize.width));
+		}
+		else if (_size.width != frame.cols && _size.height != frame.rows)
         {
             resize(frame, frame, _size);
         }

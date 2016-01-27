@@ -31,7 +31,7 @@ void ProcessInput::operator()()
             _channel->close();
         else
         {
-            _channel->addImage(frame);
+            _channel->addData(frame);
         }
         
     }
@@ -48,7 +48,7 @@ void ProcessOutput::operator()()
     while (_channel->isOpen())
     {
         Mat frame;
-        bool hasFrame = _channel->getFrame(frame);
+        bool hasFrame = _channel->getData(frame);
         if (!hasFrame || frame.empty())
             _channel->close();
         else
@@ -103,6 +103,7 @@ void Processor::run()
         namedWindow(_outputWindowName, FLAGS);
     if (_mListener && _process)
         cv::setMouseCallback(_outputWindowName, Processor::mouseCallback, _process);
+   
     
     if (!_input && (!_process || !_functor))
         return;
@@ -121,13 +122,21 @@ void Processor::run()
     bool freezed = false;
     while (_input_channel->isOpen())
     {
-        Mat frame, frameOut;
+        
         bool hasFrame = true;
         
+        Mat frame, frameOut;
+        
+      
+        
         if (!freezed)
-            hasFrame = _input_channel->getFrame(frame);
+        {
+            hasFrame = _input_channel->getData(frame);
+        }
         else
+        {
             frame = freezeFrame;
+        }
         
         
         if (!hasFrame || frame.empty())
@@ -150,15 +159,15 @@ void Processor::run()
             auto duration = chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count();
             
             if (_showTimeInfo)
-            printf("I: [%.2f] P: [%.2f] O: [%.2f] \n",
-                   _input_channel->getFrequency(),
-                   1000.0/double(duration) ,
-                   _output_channel->getFrequency());
+                printf("I: [%.2f] P: [%.2f] O: [%.2f] \n",
+                       _input_channel->getFrequency(),
+                       1000.0/double(duration) ,
+                       _output_channel->getFrequency());
             
             if (_showOutput && !frameOut.empty())
                 cv::imshow(_outputWindowName, frameOut);
             if (_output)
-                _output_channel->addImage(frameOut);
+                _output_channel->addData(frameOut);
             
             int key = waitKey(1);
             if (key == Keys::ESC)
@@ -183,3 +192,147 @@ void Processor::run()
     
     destroyAllWindows();
 }
+
+
+void BatchProcessor::mouseCallback(int event, int x, int y, int flags, void *ptr)
+{
+    MouseListener* listener = (MouseListener*)ptr;
+    if (listener)
+    {
+        listener->mouseInput(event, x, y, flags);
+        
+        if (event == EVENT_LBUTTONDOWN)
+        {
+            listener->leftButtonDown(x, y, flags);
+        }
+        else if (event == EVENT_RBUTTONDOWN)
+        {
+            listener->rightButtonDown(x, y, flags);
+        }
+        else if (event == EVENT_MBUTTONDOWN)
+        {
+            listener->middleButtonDown(x, y, flags);
+        }
+        else if (event == EVENT_MOUSEMOVE)
+        {
+            listener->mouseMove(x, y, flags);
+        }
+    }
+}
+
+void BatchProcessor::run()
+{
+    
+    int FLAGS = CV_GUI_NORMAL | CV_WINDOW_AUTOSIZE;
+    
+    if (_showInput)
+        namedWindow(_inputWindowName,FLAGS);
+    if (_showOutput)
+        namedWindow(_outputWindowName, FLAGS);
+    if (_mListener && _batch_process)
+        cv::setMouseCallback(_outputWindowName, BatchProcessor::mouseCallback, _batch_process);
+    
+    
+    if (!_input && (!_batch_process || !_batch_functor))
+        return;
+    
+    Ptr<BufferedImageChannel> _input_channel = new BufferedImageChannel(_inputBufferSize);
+    std::thread  _inputThread(ProcessInput(_input, _input_channel));
+    thread_guard gi(_inputThread);
+    
+    Ptr<BufferedImageChannel> _output_channel = new BufferedImageChannel(_outputBufferSize);
+    std::thread  _outputThread(ProcessOutput(_output, _output_channel));
+    thread_guard go(_outputThread);
+    
+    
+    size_t frameN = 0;
+    size_t numberOfFrames = _batchSize;
+    
+    vector<Mat> freezeFrames;
+    bool freezed = false;
+    while (_input_channel->isOpen())
+    {
+        
+        if (_batch_process && !freezed)
+            numberOfFrames = _batch_process->batchProcessSize();
+        
+        vector<Mat> frames(numberOfFrames);
+        
+        bool hasFrames = true;
+        
+        Mat frameOut;
+        
+        
+        if (!freezed)
+        {
+            for (size_t i = 0; i < numberOfFrames; i++)
+            {
+                    hasFrames &= _input_channel->getData(frames[i]);
+                    hasFrames &= !frames[i].empty();
+            }
+        }
+        else
+        {
+            frames = freezeFrames;
+        }
+        
+
+        
+        if (!hasFrames)
+        {
+            _input_channel->close();
+            _output_channel->close();
+        }
+        else
+        {
+            
+            if (_showInput && !frames[numberOfFrames - 1].empty())
+                cv::imshow(_inputWindowName, frames[numberOfFrames - 1]);
+            auto start_time = chrono::high_resolution_clock::now();
+            
+            if (_batch_functor)
+                _batch_functor(frameN, frames, frameOut);
+            else if (_batch_process)
+                _batch_process->operator()(frameN, frames, frameOut);
+            
+            auto end_time = chrono::high_resolution_clock::now();
+            auto duration = chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count();
+            
+            if (_showTimeInfo)
+                printf("I: [%.2f] P: [%.2f] O: [%.2f] \n",
+                       _input_channel->getFrequency(),
+                       1000.0/double(duration) ,
+                       _output_channel->getFrequency());
+            
+            if (_showOutput && !frameOut.empty())
+                cv::imshow(_outputWindowName, frameOut);
+            if (_output)
+                _output_channel->addData(frameOut);
+            
+            
+            
+            int key = waitKey(1);
+            if (key == Keys::ESC)
+            {
+                _input_channel->close();
+                _output_channel->close();
+            }
+            if (key == Keys::SPACE)
+            {
+                freezeFrames = frames;
+                freezed = !freezed;
+            }
+            if (_kListener && _batch_process && key != Keys::NONE)
+                _batch_process->keyboardInput(key);
+            
+            if (!freezed)
+                frameN += numberOfFrames;
+        }
+        
+    }
+    
+    
+    destroyAllWindows();
+}
+
+

@@ -25,11 +25,13 @@ namespace viva
         Size _size;
         bool _convert;
         int _conversionFlag;
+		Size _orgSize;
         
     public:
         Input(const Size &size = Size(-1, -1),
               int conversionFlag = -1):
-                _size(size), _convert(false), _conversionFlag(conversionFlag)
+                _size(size), _convert(false),
+                _conversionFlag(conversionFlag)
         {
             if (_conversionFlag != -1)
                 _convert = true;
@@ -50,47 +52,33 @@ namespace viva
         {
             return _size.height;
         }
+		Size getOrgSize()
+		{
+			return _orgSize;
+		}
         
     };
     
-    class CameraInput: public Input
-    {
-    private:
-        VideoCapture _CameraInput;
-        bool _opened;
-    public:
-        CameraInput(int device = 0, const Size &size = Size(-1,-1), int colorFlag = -1);
-        ~CameraInput();
-        bool getFrame(Mat &frame);
-        
-    };
+   
     
     class VideoInput: public Input
     {
-    private:
+    protected:
         VideoCapture _CameraInput;
         bool _opened;
     public:
         
         VideoInput(const string &filename, const Size &size = Size(-1,-1), int colorFlag = -1);
+		VideoInput(const int id, const Size &size = Size(-1, -1), int colorFlag = -1);
         VideoInput();
         ~VideoInput();
         bool getFrame(Mat &frame);
     };
     
-    class WebStreamInput: public VideoInput
-    {
-    public:
-        WebStreamInput(const string &url, const Size &size = Size(-1,-1), int colorFlag = -1):
-        VideoInput(url, size, colorFlag) {}
-    };
     
-    class SequenceInput: public VideoInput
-    {
-    public:
-        SequenceInput(const string &sequence, const Size &size = Size(-1,-1), int colorFlag = -1):
-        VideoInput(sequence, size, colorFlag) {}
-    };
+    typedef VideoInput CameraInput;
+    typedef VideoInput WebStreamInput;
+    typedef VideoInput SequenceInput;
     
     
     class ImageListInput: public Input

@@ -92,9 +92,7 @@ class TrackingProcess: public ProcessFrame
     bool trackerInitialized;
     
 public:
-    TrackingProcess(): TrackingProcess(NULL)
-    {}
-    
+  
     TrackingProcess(const Ptr<Tracker> &trk):
         tracker(trk), selectedArea(), trackerInitialized(false)
     {}

@@ -39,6 +39,11 @@ class TrackerFactory
 {
 public:
     static Ptr<Tracker> createTracker(TRACKING_METHOD method = TRACKING_METHOD::AREA);
+    static Ptr<Tracker> createTracker(KType type, KFeat feat, bool scale = false)
+    {
+        Ptr<Tracker> tracker = new SKCFDCF(type, feat, scale);
+        return tracker;
+    }
 };
 
 
