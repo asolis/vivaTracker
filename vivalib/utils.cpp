@@ -120,6 +120,15 @@ void Files::listImages(const string &dirname, vector<string> &files, bool return
     
     sort(files.begin(), files.end());
 }
+bool Files::isFile(const string &fullpath)
+{
+    struct stat st;
+    stat(fullpath.c_str(), &st);
+    if(S_ISREG(st.st_mode))
+        return true;
+    else
+        return false;
+}
 
 bool Files::isDir(const string &fullpath)
 {

@@ -1,13 +1,9 @@
 /*******************************************************
- *  tracker_factory.cpp (VivaTracker)
- *  <asolis@hotmail.ca>
- *   PhD Student.
+ * Copyright (C) 2016  Andrés Solís Montero <andres@solism.ca>
+ *   PhD Candidate.
  *   SITE, University of Ottawa
  *   800 King Edward Ave.
  *   Ottawa, On., K1N 6N5, Canada.
- * Project can not be copied and/or distributed without the express
- * permission of Andrés Solís Montero
- * Created by Andrés Solís Montero on 2015-02-17.
  *******************************************************/
 
 #include "factories.h"

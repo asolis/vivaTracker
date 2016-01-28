@@ -57,6 +57,7 @@ namespace viva
         static void listImages(const string &dirname, vector<string> &files, bool returnPaths = true);
 
 		static bool isDir(const string &fullpath);
+        static bool isFile(const string &fullpath);
 		static void makeDir(const string &fullpath);
 
 		static bool exists(const string &fullpath);

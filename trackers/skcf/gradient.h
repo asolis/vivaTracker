@@ -1,14 +1,9 @@
 /*******************************************************
- * Copyright (C) 2015 Andrés Solís Montero <asolis@hotmail.ca>
+ * Copyright (C) 2016  Andrés Solís Montero <andres@solism.ca>
  *   PhD Candidate.
  *   SITE, University of Ottawa
  *   800 King Edward Ave.
  *   Ottawa, On., K1N 6N5, Canada.
- * Project can not be copied and/or distributed without the express
- * permission of Andrés Solís Montero
- * Created by Andres Solis Montero on 2015.
- *
- * OpenCV interface for fhog feature computation
  *******************************************************/
 #ifndef _GRADIENT_H_
 #define _GRADIENT_H_

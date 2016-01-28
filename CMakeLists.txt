@@ -7,8 +7,8 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 # add opencv package to the project
 FIND_PACKAGE( OpenCV REQUIRED )
-INCLUDE_DIRECTORIES( "/usr/local/Cellar/opencv3/3.1.0_1/include/opencv;/usr/local/Cellar/opencv3/3.1.0_1/include" ) 
-#INCLUDE_DIRECTORIES( ${OpenCV_INCLUDE_DIRS} ) 
+SET(OpenCV_INCLUDE_DIRS "/usr/local/Cellar/opencv3/3.1.0_1/include/opencv;/usr/local/Cellar/opencv3/3.1.0_1/include" ) 
+INCLUDE_DIRECTORIES( ${OpenCV_INCLUDE_DIRS} ) 
 
 MESSAGE(STATUS "Project Name: ${PROJECT_NAME}")
 MESSAGE(STATUS "    OpenCV version: ${OpenCV_VERSION} ")
@@ -34,6 +34,13 @@ FOREACH(tracker ${TRACKERS})
 	TARGET_LINK_LIBRARIES( ${PROJECT_NAME} ${tracker})
 	MESSAGE(STATUS "    tracker included: ${tracker}")
 ENDFOREACH()
+
+#Download VOT sequences
+OPTION(download_vot2013 		"Download video sequences from VOT 2013 dataset" OFF)
+OPTION(download_vot2014 		"Download video sequences from VOT 2014 dataset" OFF)
+OPTION(download_vot2015 		"Download video sequences from VOT 2015 dataset" OFF)
+OPTION(download_vot2015tir 		"Download video sequences from VOT-TIR 2015 dataset" OFF)
+CHECK_VOT_OPTS()
 
 # Copy resources in source folder to build folders
 FILE(GLOB hidden

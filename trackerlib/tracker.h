@@ -1,8 +1,9 @@
 /*******************************************************
- * Copyright (C) 2014 Name <email>
- * Project can not be copied and/or distributed without the express
- * permission of Fullname
- * Created by Fullname on 2014-06-18.
+ * Copyright (C) 2016  Andrés Solís Montero <andres@solism.ca>
+ *   PhD Candidate.
+ *   SITE, University of Ottawa
+ *   800 King Edward Ave.
+ *   Ottawa, On., K1N 6N5, Canada.
  *******************************************************/
 
 #ifndef TRACKER_H

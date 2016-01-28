@@ -1,12 +1,9 @@
- /*******************************************************
- * Copyright (C) 2013 Andrés Solís Montero <asolis@hotmail.ca>
- *   PhD Student.
+/*******************************************************
+ * Copyright (C) 2016  Andrés Solís Montero <andres@solism.ca>
+ *   PhD Candidate.
  *   SITE, University of Ottawa
  *   800 King Edward Ave.
  *   Ottawa, On., K1N 6N5, Canada.
- * Project can not be copied and/or distributed without the express
- * permission of Andrés Solís Montero
- * Created by Andres Solis Montero on 2014-06-18.
  *******************************************************/
 #include "tracking_process.h"
 
@@ -25,7 +22,7 @@ void TrackingProcess::mouseMove(int x, int y, int flags)
     selectedArea.mouseMove(x, y);
 }
 //@Override
-void TrackingProcess::operator()(size_t frameN, Mat &frame, Mat &output)
+void TrackingProcess::operator()(const size_t frameN, const Mat &frame, Mat &output)
 {
 
     frame.copyTo(output);

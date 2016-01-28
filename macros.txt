@@ -1,3 +1,17 @@
+SET(SEQUENCES_PATH ${CMAKE_SOURCE_DIR}/sequences/)
+
+SET(vot2013  http://box.vicos.si/vot/vot2013.zip)
+SET(md5_vot2013  f3347d0b0ca68f6848d81b4ed175b109)
+
+SET(vot2014  http://box.vicos.si/vot/vot2014.zip)
+SET(md5_vot2014  910bbf158c6d38f85753967be6455717)
+
+SET(vot2015  http://box.vicos.si/vot/vot2015.zip)
+SET(md5_vot2015  d7a5ec1d43847335866435567700697e)
+
+SET(vot2015tir  http://box.vicos.si/vot/vot2015tir.zip)
+SET(md5_vot2015tir  ee809434aeca81d7fe4f9ab3ba03cac7)
+
 MACRO(SUBDIRLIST result curdir)
   FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)
   SET(dirlist "")
@@ -7,4 +21,41 @@ MACRO(SUBDIRLIST result curdir)
     ENDIF()
   ENDFOREACH()
   SET(${result} ${dirlist})
+ENDMACRO()
+
+MACRO(UNZIP file dest)
+	FILE(MAKE_DIRECTORY ${dest})
+	execute_process(
+     COMMAND ${CMAKE_COMMAND} -E tar xzf ${file} 
+     WORKING_DIRECTORY ${dest}
+    )
+ENDMACRO()
+
+MACRO(CHECK_VOT_OPT url)
+	GET_FILENAME_COMPONENT(name ${url} NAME_WE)
+	GET_FILENAME_COMPONENT(filename ${url} NAME)
+	IF(${download_${name}})
+	
+		SET (DATASET "${SEQUENCES_PATH}${filename}")
+		SET (DATASET_FOLDER ${SEQUENCES_PATH}${name}/)
+		SET (DATASET_MD5 ${md5_${name}})
+		
+		FILE(MAKE_DIRECTORY ${DATASET_FOLDER})
+		IF ( NOT EXISTS  ${DATASET})
+			 MESSAGE(STATUS "    downloading dataset: ${DATASET}")
+		 	 FILE(DOWNLOAD ${url} ${DATASET} SHOW_PROGRESS EXPECTED_HASH MD5=${DATASET_MD5})
+		ENDIF()
+		IF ( EXISTS ${DATASET} AND NOT EXISTS  "${DATASET_FOLDER}list.txt")
+			MESSAGE(STATUS "    unziping dataset: ${DATASET}")
+			UNZIP(${DATASET} ${SEQUENCES_PATH})
+		ENDIF()
+	ENDIF()
+ENDMACRO()
+
+MACRO(CHECK_VOT_OPTS)
+	SET(DATASETS ${vot2013} ${vot2014} ${vot2015} ${vot2015tir})
+	FOREACH(url ${DATASETS})
+		CHECK_VOT_OPT(${url})
+	ENDFOREACH()
+	FILE(WRITE ${CMAKE_SOURCE_DIR}/sequences.txt "${SEQUENCES_PATH}" )
 ENDMACRO()

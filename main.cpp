@@ -1,5 +1,5 @@
 /*******************************************************
- *   Copyright (C) 2015 Andrés Solís Montero <andres@solism.ca>
+ * Copyright (C) 2016  Andrés Solís Montero <andres@solism.ca>
  *   PhD Candidate.
  *   SITE, University of Ottawa
  *   800 King Edward Ave.
@@ -11,6 +11,9 @@
 #include <sstream>
 
 using namespace viva;
+
+
+
 
 void printHelp()
 {
@@ -33,105 +36,11 @@ void printHelp()
     cout << "            -h: print this help (default off)" << endl;
 }
 
-KType parseType(int argc, const char * argv[])
-{
-    KType type = KType::GAUSSIAN;
-    for (int i = 0; i < argc; i++)
-    {
-        
-        if (string(argv[i]) == "-t")
-        {
-            if (i + 1 >= argc) break;
-            
-            string _t = argv[i+1];
-            if (_t == "g")
-                type = KType::GAUSSIAN;
-            if (_t == "l")
-                type = KType::LINEAR;
-            if (_t == "p")
-                type = KType::POLYNOMIAL;
-            
-            cout << "selected " << _t << endl; 
-        }
-    }
-    return type;
-}
 
-KFeat parseFeat(int argc, const char * argv[])
+string parseSequence(const string &sequence)
 {
-    KFeat feat = KFeat::FHOG;
-    for (int i = 0; i < argc; i++)
-    {
-        if (string(argv[i]) == "-f")
-        {
-            if (i + 1 >= argc) break;
-            string _t = argv[i+1];
-            if (_t == "fhog")
-                feat = KFeat::FHOG;
-            if (_t == "gray")
-                feat = KFeat::GRAY;
-            if (_t == "rgb")
-                feat = KFeat::RGB;
-            if (_t == "hsv")
-                feat = KFeat::HSV;
-            if (_t == "hls")
-                feat = KFeat::HLS;
-            
-            cout << "selected " << _t << endl;
-            break;
-        }
-    }
-    return feat;
-}
-
-bool parseScale(int argc, const char * argv[])
-{
-    bool scale = true;
-    
-    for (int i = 0; i < argc; i++)
-    {
-        if (string(argv[i]) == "-s")
-        {
-            scale = false;
-        }
-    }
-    
-    return scale;
-}
-
-bool parseHelp(int argc, const char * argv[])
-{
-
-    
-    for (int i = 0; i < argc; i++)
-    {
-        if (string(argv[i]) == "-h")
-        {
-            printHelp();
-            return true;
-        }
-    }
-    return false;
-}
-bool parseInfo(int argc, const char * argv[])
-{
-    
-    
-    for (int i = 0; i < argc; i++)
-    {
-        if (string(argv[i]) == "-i")
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-string parseSequence(int argc, const char * argv[])
-{
-    
     string folder    = "/Users/andres/trackers/input/Benchmark/";
-    string sequence  = "Car4";
+    string seq  = "Car4";
     
     auto buildPath = [&folder](const string &sequence)
     {
@@ -140,44 +49,49 @@ string parseSequence(int argc, const char * argv[])
         return ss.str();
     };
     
+    if (viva::Files::exists(sequence))
+        return sequence;
     
-    for (int i = 0; i < argc; i++)
-    {
-        if (string(argv[i]).substr(0,1) == "-")
-            continue;
-        else
-        {
-            string path = buildPath(argv[i]);
-            if (viva::Files::exists(path))
-                return path;
-        }
-    }
+    string path = buildPath(sequence);
+    if (viva::Files::exists(path))
+        return path;
+        
     
-    return buildPath(sequence);
-    
+    return buildPath(seq);
 }
-
-
 
 int main(int argc, const char * argv[])
 {
+    const String keys =
+        "{help h usage ?    |       | print this message}"
+        "{@sequence         |       | video file, folder with images, image sequence, camera index}"
+        "{t tracker         |skcf   | tracking algorithm to use}"
+    ;
+    
+    CommandLineParser parser(argc, argv, keys);
+
+   
+    if (parser.has("help"))
+    {
+        parser.printMessage();
+        return 0;
+    }
     
 
-    if (parseHelp(argc, argv))
-        return 0;
-
-    string inputFolderWithImgs = parseSequence(argc, argv); //"/Users/andres/trackers/input/Benchmark/Car4/img/";
+    string inputFolderWithImgs = parseSequence(parser.get<string>(0));
+    
+    //"/Users/andres/trackers/input/Benchmark/Car4/img/";
     //string inputFolderWithImgs = "/Users/andres/trackers/input/Benchmark/Couple/img/";
     //string inputFolderWithImgs = "/Users/andres/trackers/input/Benchmark/Suv/img/";
     //string inputFolderWithImgs = "/Users/andres/trackers/input/Benchmark/CarScale/img/";
     
     
-    Processor processor(argc, argv);
+    Processor processor;
     
-    //Ptr<Tracker> tracker = TrackerFactory::createTracker(TRACKING_METHOD::KCF_G_FHOG_S);
-    Ptr<Tracker> tracker = TrackerFactory::createTracker(parseType(argc, argv),
+    Ptr<Tracker> tracker = TrackerFactory::createTracker(TRACKING_METHOD::KCF_G_FHOG_S);
+   /* Ptr<Tracker> tracker = TrackerFactory::createTracker(parseType(argc, argv),
                                                          parseFeat(argc, argv),
-                                                         parseScale(argc, argv));
+                                                         parseScale(argc, argv));*/
     
     Ptr<ProcessFrame> process = new TrackingProcess(tracker);
     Ptr<Input> input = new ImageListInput(inputFolderWithImgs, Size(-1,-1), -1, 0);
@@ -185,8 +99,6 @@ int main(int argc, const char * argv[])
     processor.setInput(input);
     processor.setProcess(process);
     processor.listenToKeyboardEvents();
-    if (parseInfo(argc, argv))
-        processor.showTimeInfo();
     processor.listenToMouseEvents();
     processor.run();
 
