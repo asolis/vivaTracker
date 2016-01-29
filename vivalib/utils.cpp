@@ -165,6 +165,12 @@ void Files::getExtension(const string &filename, string &extension)
     extension = filename.substr(index + 1);
 }
 
+void Files::getBasename(const string &path, string &base)
+{
+    size_t index = path.find_last_of("/\\");
+    base = path.substr(0, index + 1);
+}
+
 void Files::getFilename(const string &path, string &filename)
 {
     size_t index = path.find_last_of("/\\");

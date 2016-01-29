@@ -22,12 +22,6 @@ using namespace cv;
  */
 class Tracker
 {
-
-protected:
-    string _postfix;
-    string filename;
-    
-    
 public:
     
   /*
@@ -36,21 +30,6 @@ public:
    * @param vector<Point2f> &pts. The tracked area will be filled  in this vector
    */
   void virtual getTrackedArea(vector<Point2f> &pts) = 0;
-    
-  /*
-  * If used, this will return the tracked points at each time.
-  * @param vector<Point2f> &pts. The tracked points will be filled in this vector.
-  *                              If the algorithm doesn't track pts, will fill nothing.
-  */
-    void virtual getTrackedPoints(vector<Point2f> &pts) {};
-    
-    /*
-     * If used, this will return the detected points at each time.
-     * @param vector<Point2f> &pts. The detected points will be filled in this vector.
-     *                              If the algorithm doesn't detect pts, will fill nothing.
-     */
-    void virtual getDetectedPoints(vector<Point2f> &pts) {};
-    
     
   /*
    * Initialize the tracker using the first image with the selected area

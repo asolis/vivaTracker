@@ -64,6 +64,7 @@ namespace viva
 
 		static void getExtension(const string &filename, string &extension);
 		static void getFilename(const string &path, string &filename);
+        static void getBasename(const string &path, string &base);
     };
     
     

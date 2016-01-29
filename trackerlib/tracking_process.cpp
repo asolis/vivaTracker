@@ -7,6 +7,57 @@
  *******************************************************/
 #include "tracking_process.h"
 
+
+
+
+RectSelectArea::RectSelectArea():
+_state(0), _loc(2, Point2f(-1,-1))
+{
+    _loc[0] = Point2f(-1,-1);
+    _loc[1] = Point2f(-1,-1);
+}
+void RectSelectArea::mouseMove(int x, int y)
+{
+    if (_state == 1)
+        _loc[1] = Point2f(x,y);
+}
+
+void RectSelectArea::setClick(int x , int y)
+{
+    
+    if (_state == 0)
+    {
+        _loc[0]= Point2f(x,y);
+        _loc[1]= Point2f(x,y);
+    }
+    else if (_state == 1)
+    {
+        _loc[1]= Point2f(x,y);
+    }
+    else if (_state == 2)
+    {
+        _state++;
+        _loc[0]= Point2f(x,y);
+        _loc[1]= Point2f(x,y);
+    }
+    _state = (++_state) % 3;
+    
+}
+bool RectSelectArea::isSelected()
+{
+    return _state == 2;
+}
+
+Rect RectSelectArea::getBoundingBox()
+{
+    return boundingRect(_loc);
+}
+
+
+
+
+
+
 void TrackingProcess::setTracker(const Ptr<Tracker> &trk)
 {
     tracker = trk;
@@ -26,6 +77,18 @@ void TrackingProcess::operator()(const size_t frameN, const Mat &frame, Mat &out
 {
 
     frame.copyTo(output);
+    
+    if (frameN < groundTruth.size())
+    {
+        Draw::drawQuadrangle(output, groundTruth[frameN], Color::white);
+    }
+    if (frameN == 0 && groundTruth.size() > 0)
+    {
+        Rect _area_ = boundingRect(groundTruth[0]);
+        selectedArea.setClick(_area_.tl().x, _area_.tl().y);
+        selectedArea.setClick(_area_.br().x, _area_.br().y);
+        
+    }
 
     if (!selectedArea.isSelected())
     {
@@ -52,16 +115,13 @@ void TrackingProcess::operator()(const size_t frameN, const Mat &frame, Mat &out
             tracker->processFrame(frame);
         }
         
-        vector<Point2f> trackedPts;
-        tracker->getTrackedPoints(trackedPts);
-        Draw::drawPoints(output, trackedPts, Color::white);
-        
         vector<Point2f> trackedArea;
         tracker->getTrackedArea(trackedArea);
         Draw::drawQuadrangle(output, trackedArea, Color::red);
 
     }
 }
+
 
 
 const Scalar Color::red  = Scalar(0,0,255);

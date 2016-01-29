@@ -154,6 +154,7 @@ namespace viva {
         size_t _outputBufferSize;
         
         bool _showTimeInfo;
+        bool _pause;
         
         static void mouseCallback(int event, int x, int y, int flags, void *ptr);
         
@@ -172,7 +173,8 @@ namespace viva {
         _kListener(false),
         _inputBufferSize(10),
         _outputBufferSize(10),
-        _showTimeInfo(false)
+        _showTimeInfo(false),
+        _pause(false)
         {}
         
         Processor(int argc, const char * argv[]) : Processor()
@@ -229,6 +231,12 @@ namespace viva {
         {
             _process = process;
         }
+        
+        void startPaused()
+        {
+            _pause = true;
+        }
+        
         
         void setProcess(function<void(const size_t frameN,const Mat &frame, Mat &output)> functor)
         {

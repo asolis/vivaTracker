@@ -175,8 +175,9 @@ void Processor::run()
                 _input_channel->close();
                 _output_channel->close();
             }
-            if (key == Keys::SPACE)
+            if (key == Keys::SPACE || _pause)
             {
+                _pause = false;
                 freezeFrame = frame;
                 freezed = !freezed;
             }

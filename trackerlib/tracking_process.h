@@ -12,6 +12,8 @@
 #include "viva.h"
 #include "tracker.h"
 
+#include <fstream>
+
 
 using namespace viva;
 using namespace std;
@@ -21,53 +23,13 @@ using namespace cv;
 class RectSelectArea
 {
     int _state;
-    
 public:
     vector<Point2f> _loc;
-    
-    RectSelectArea():
-        _state(0), _loc(2, Point2f(-1,-1))
-    {
-        _loc[0] = Point2f(-1,-1);
-        _loc[1] = Point2f(-1,-1);
-    }
-    
-    void mouseMove(int x, int y)
-    {
-        if (_state == 1)
-        _loc[1] = Point2f(x,y);
-    }
-    
-    void setClick(int x , int y)
-    {
-        
-        if (_state == 0)
-        {
-            _loc[0]= Point2f(x,y);
-            _loc[1]= Point2f(x,y);
-        }
-        else if (_state == 1)
-        {
-            _loc[1]= Point2f(x,y);
-        }
-        else if (_state == 2)
-        {
-            _state++;
-            _loc[0]= Point2f(x,y);
-            _loc[1]= Point2f(x,y);
-        }
-        _state = (++_state) % 3;
-       
-    }
-    bool isSelected()
-    {
-        return _state == 2;
-    }
-
-    Rect getBoundingBox()
-    {
-        return boundingRect(_loc);
-    }
+    RectSelectArea();
+    void mouseMove(int x, int y);
+    void setClick(int x , int y);
+    bool isSelected();
+    Rect getBoundingBox();
 };
 
 struct Color
@@ -82,17 +44,23 @@ struct Color
     const static Scalar orange;
 };
 
+
+
+
 class TrackingProcess: public ProcessFrame
 {
     Ptr<Tracker> tracker;
     RectSelectArea selectedArea;
     bool trackerInitialized;
     
+    vector<vector<Point2f> > groundTruth;
+    
 public:
   
-    TrackingProcess(const Ptr<Tracker> &trk):
-        tracker(trk), selectedArea(), trackerInitialized(false)
+    TrackingProcess(const Ptr<Tracker> &trk, const vector<vector<Point2f> > &gt):
+        tracker(trk), selectedArea(), trackerInitialized(false), groundTruth(gt)
     {}
+    
     
     void setTracker(const Ptr<Tracker> &trk);
     //@Override

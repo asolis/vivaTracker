@@ -13,34 +13,48 @@
 
 #include "tracker.h"
 #include "tracking_process.h"
-//#include "CMTtracker.h"
-//#include "opentld.h"
-//#include "STRUCKtracker.h"
-//#include "AlienTracker.h"
-//#include "csk_tracker.h"
 #include "skcfdcf.h"
-
-
-
-enum class TRACKING_METHOD{OPENTLD, CSK, CMT, STRUCK, ALIEN, AREA,
-        KCF_P_G, KCF_P_RGB, KCF_P_FHOG, KCF_P_HSV, KCF_P_HLS,
-        KCF_G_G, KCF_G_RGB, KCF_G_FHOG, KCF_G_HSV, KCF_G_HLS,
-        DCF_G, DCF_RGB, DCF_FHOG, DCF_HSV, DCF_HLS,
-        KCF_P_G_S, KCF_P_RGB_S, KCF_P_FHOG_S, KCF_P_HSV_S, KCF_P_HLS_S,
-        KCF_G_G_S, KCF_G_RGB_S, KCF_G_FHOG_S, KCF_G_HSV_S, KCF_G_HLS_S,
-        DCF_G_S, DCF_RGB_S, DCF_FHOG_S, DCF_HSV_S,DCF_HLS_S,
-};
 
 class TrackerFactory
 {
+    
+private:
+    static string SEQ_BASE_FILE;
+    static string GROUND_TRUTH_FILE;
+    
+    static bool isVideoFile(const string &sequence);
+    static bool isWebFile(const string &sequence);
+    static bool isStringSequence(const string &sequence);
+    static bool isFolderSequence(const string &sequence);
+    static string constructSequenceFolder(const string &file, const string &sequence);
+
+    
 public:
-    static Ptr<Tracker> createTracker(TRACKING_METHOD method = TRACKING_METHOD::AREA);
-    static Ptr<Tracker> createTracker(KType type, KFeat feat, bool scale = false)
-    {
-        Ptr<Tracker> tracker = new SKCFDCF(type, feat, scale);
-        return tracker;
-    }
+    
+    static Ptr<Input> createInput(const string &sequence);
+    static Ptr<Tracker> createTracker(const string &method, const int argc, const char * argv[]);
+    static void loadGroundTruth(const string &sequence, vector<vector<Point2f> > &groundTruth);
 };
 
+class GroundTruth
+{
+    
+public:
+    
+    template<typename T>
+    static std::vector<T> &split(const std::string &s, char delim, std::vector<T> &elems) {
+        std::stringstream ss(s);
+        std::string item;
+        while (std::getline(ss, item, delim)) {
+            T tmp;
+            std::stringstream(item) >> tmp;
+            elems.push_back(tmp);
+        }
+        return elems;
+    }
+    
+    
+    static void  parse(const string file, vector<vector<Point2f> > &gt);
+};
 
 #endif /* defined(__VivaTracker__tracker_factory__) */
