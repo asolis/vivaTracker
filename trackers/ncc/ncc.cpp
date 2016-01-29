@@ -13,18 +13,15 @@ void NCCTracker::initialize(const cv::Mat &img, const cv::Rect &rect)
 {
     p_window = MAX(rect.width, rect.height) * 2;
 
-    cv::Mat gray;
-    cv::cvtColor(img, gray, CV_BGR2GRAY);
-
     int left = MAX(rect.x, 0);
     int top = MAX(rect.y, 0);
 
-    int right = MIN(rect.x + rect.width, gray.cols - 1);
-    int bottom = MIN(rect.y + rect.height, gray.rows - 1);
+    int right = MIN(rect.x + rect.width, img.cols - 1);
+    int bottom = MIN(rect.y + rect.height, img.rows - 1);
 
     cv::Rect roi(left, top, right - left, bottom - top);
 
-    gray(roi).copyTo(p_template);
+    img(roi).copyTo(p_template);
 
     p_position.x = (float)rect.x + (float)rect.width / 2;
     p_position.y = (float)rect.y + (float)rect.height / 2;
@@ -35,14 +32,11 @@ void NCCTracker::initialize(const cv::Mat &img, const cv::Rect &rect)
 void NCCTracker::processFrame(const cv::Mat &img)
 {
 
-    cv::Mat gray;
-    cv::cvtColor(img, gray, CV_BGR2GRAY);
-
     float left  = MAX(round(p_position.x - (float)p_window / 2), 0);
     float top   = MAX(round(p_position.y - (float)p_window / 2), 0);
 
-    float right  = MIN(round(p_position.x + (float)p_window / 2), gray.cols - 1);
-    float bottom = MIN(round(p_position.y + (float)p_window / 2), gray.rows - 1);
+    float right  = MIN(round(p_position.x + (float)p_window / 2), img.cols - 1);
+    float bottom = MIN(round(p_position.y + (float)p_window / 2), img.rows - 1);
 
     cv::Rect roi((int) left, (int) top, (int) (right - left), (int) (bottom - top));
 
@@ -56,7 +50,7 @@ void NCCTracker::processFrame(const cv::Mat &img)
     }
 
     cv::Mat matches;
-    cv::Mat cut = gray(roi);
+    cv::Mat cut = img(roi);
 
     cv::matchTemplate(cut, p_template, matches, CV_TM_CCOEFF_NORMED);
 
