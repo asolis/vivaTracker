@@ -132,8 +132,6 @@ Ptr<Tracker> TrackerFactory::createTracker(const string &method, const int argc,
         "{f feat            |fhog   | feature type: fhog, gray, rgb, hsv, hls}"
         "{s scale           |       | turn on scale estimation}";
         
-        
-        
         CommandLineParser parser(argc, argv, keys);
         
         if (parser.has("?"))
@@ -164,6 +162,20 @@ Ptr<Tracker> TrackerFactory::createTracker(const string &method, const int argc,
             feat = KFeat::FHOG;
         
         tracker = new SKCFDCF(KType::GAUSSIAN, KFeat::FHOG, parser.has("s"));
+    }
+    if (method == "ncc")
+    {
+        const String keys =
+        "{? usage           |       | print this message}";
+        
+        CommandLineParser parser(argc, argv, keys);
+        
+        if (parser.has("?"))
+        {
+            parser.printMessage();
+            return tracker;
+        }
+        tracker = new NCCTracker();
     }
     
     

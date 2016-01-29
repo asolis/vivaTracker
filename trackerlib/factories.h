@@ -14,6 +14,7 @@
 #include "tracker.h"
 #include "tracking_process.h"
 #include "skcfdcf.h"
+#include "ncc.h"
 
 class TrackerFactory
 {
