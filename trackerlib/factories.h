@@ -14,7 +14,10 @@
 #include "tracker.h"
 #include "tracking_process.h"
 #include "skcfdcf.h"
+#include "kcftracker.hpp"
 #include "ncc.h"
+#include "opentld.h"
+#include "STRUCKtracker.h"
 
 class TrackerFactory
 {

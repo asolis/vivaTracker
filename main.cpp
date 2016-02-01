@@ -23,7 +23,7 @@ int main(int argc, const char * argv[])
     
     CommandLineParser parser(argc, argv, keys);
 
-    if (parser.has("help"))
+    if (parser.has("h"))
             parser.printMessage();
 
     string sequence = parser.get<string>(0);
@@ -32,7 +32,7 @@ int main(int argc, const char * argv[])
     Ptr<Input> input     = TrackerFactory::createInput(sequence);
     Ptr<Tracker> tracker = TrackerFactory::createTracker(method , argc, argv);
     
-    if (parser.has("help") || input.empty() || tracker.empty())
+    if (parser.has("h") || input.empty() || tracker.empty())
         return 0;
     
     vector<vector<Point2f> > groundTruth;

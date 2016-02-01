@@ -177,9 +177,74 @@ Ptr<Tracker> TrackerFactory::createTracker(const string &method, const int argc,
         }
         tracker = new NCCTracker();
     }
+    if (method == "kcf")
+    {
+        const String keys =
+        "{? usage           |       | print this message}"
+        "{f feat            |hog    | feature type: hog, lab, gray}"
+        "{s scale           |       | turn on scale estimation}";
+        
+        CommandLineParser parser(argc, argv, keys);
+        
+        if (parser.has("?"))
+        {
+            parser.printMessage();
+            return tracker;
+        }
+        
+        bool HOG = true;
+        bool FIXEDWINDOW = false;
+        bool MULTISCALE = false;
+        bool LAB = false;
+        
+        if (parser.has("s"))
+            MULTISCALE = true;
+        if (parser.get<string>("f") == "hog")
+        {
+            HOG = true;
+        }
+        else if (parser.get<string>("f") == "lab")
+        {
+            HOG = true;
+            LAB = true;
+        }
+        else if (parser.get<string>("f") == "gray")
+        {
+            HOG = false;
+        }
+        
+        tracker = new KCFTracker(HOG, FIXEDWINDOW, MULTISCALE, LAB);
+    }
+    if (method == "struck")
+    {
+        const String keys =
+        "{? usage           |       | print this message}";
+        
+        CommandLineParser parser(argc, argv, keys);
+        
+        if (parser.has("?"))
+        {
+            parser.printMessage();
+            return tracker;
+        }
+        tracker = new STRUCKtracker();
+    }
+    if (method == "tld")
+    {
+        const String keys =
+        "{? usage           |       | print this message}";
+        
+        CommandLineParser parser(argc, argv, keys);
+        
+        if (parser.has("?"))
+        {
+            parser.printMessage();
+            return tracker;
+        }
+        tracker = new OpenTLD();
+    }
     
-    
-    
+
     return tracker;
 }
 void TrackerFactory::loadGroundTruth(const string &sequence, vector<vector<Point2f> > &groundTruth)

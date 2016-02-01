@@ -25,6 +25,7 @@ ADD_EXECUTABLE(${PROJECT_NAME} ${files})
 SUBDIRS(vivalib trackerlib)
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/vivalib)
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/trackerlib)
+
 TARGET_LINK_LIBRARIES( ${PROJECT_NAME} ${OpenCV_LIBS} vivalib trackerlib)
 
 SUBDIRLIST(TRACKERS "${CMAKE_SOURCE_DIR}/trackers/")
@@ -34,6 +35,11 @@ FOREACH(tracker ${TRACKERS})
 	TARGET_LINK_LIBRARIES( ${PROJECT_NAME} ${tracker})
 	MESSAGE(STATUS "    tracker included: ${tracker}")
 ENDFOREACH()
+
+#Needed because Struck tracker
+SET(EIGEN3_INCLUDE_DIRS "" CACHE FILEPATH "Path to eigen3 directory")
+INCLUDE_DIRECTORIES(${EIGEN3_INCLUDE_DIRS})
+
 
 #Download VOT sequences
 OPTION(download_vot2013 		"Download video sequences from VOT 2013 dataset" OFF)
