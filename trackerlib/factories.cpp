@@ -119,6 +119,21 @@ Ptr<Input> TrackerFactory::createInput(const string &sequence)
     }
     return Ptr<Input>();
 }
+
+Ptr<Output> TrackerFactory::createOutput(const string &filename)
+{
+    string extension;
+    viva::Files::getExtension(filename, extension);
+    
+    if (viva::Files::isDir(filename))
+        return new ImageOutput(filename);
+    else if (extension != "")
+        return new VideoOutput(filename);
+    
+    return Ptr<Output>();
+}
+
+
 Ptr<Tracker> TrackerFactory::createTracker(const string &method, const int argc, const char * argv[])
 {
     Ptr<Tracker> tracker;

@@ -36,6 +36,7 @@ private:
 public:
     
     static Ptr<Input> createInput(const string &sequence);
+    static Ptr<Output> createOutput(const string &filename);
     static Ptr<Tracker> createTracker(const string &method, const int argc, const char * argv[]);
     static void loadGroundTruth(const string &sequence, vector<vector<Point2f> > &groundTruth);
 };

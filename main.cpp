@@ -15,10 +15,11 @@ using namespace viva;
 int main(int argc, const char * argv[])
 {
     const String keys =
-        "{help h            |       | print this message}"
-        "{@sequence         |       | url, file, folder, vot_sequence, sequence}"
-        "{m method          |skcf   | tracking method: kcf, skcf, ncc, tld, cmt, alien, ...}"
-        "{p pause           |       | start sequence paused}"
+        "{help h            |           | print this message}"
+        "{@sequence         |           | url, file, folder, vot_sequence, sequence}"
+        "{m method          |skcf       | tracking method: kcf, skcf, ncc, tld, struck, ...}"
+        "{p pause           |           | start sequence paused}"
+        "{o output          |           | output video filename / folder for images output}"
     ;
     
     CommandLineParser parser(argc, argv, keys);
@@ -28,9 +29,11 @@ int main(int argc, const char * argv[])
 
     string sequence = parser.get<string>(0);
     string method   = parser.get<string>("m");
+    string ofilename   = parser.get<string>("o");
     
     Ptr<Input> input     = TrackerFactory::createInput(sequence);
     Ptr<Tracker> tracker = TrackerFactory::createTracker(method , argc, argv);
+    Ptr<Output> output   = TrackerFactory::createOutput(ofilename);
     
     if (parser.has("h") || input.empty() || tracker.empty())
         return 0;
@@ -43,6 +46,10 @@ int main(int argc, const char * argv[])
     Processor processor;
     if (parser.has("p"))
          processor.startPaused();
+   
+    if (output && parser.has("o"))
+        processor.setOutput(output);
+    
     processor.setInput(input);
     processor.setProcess(process);
     processor.listenToKeyboardEvents();
