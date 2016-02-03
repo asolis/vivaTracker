@@ -85,7 +85,7 @@ public:
     //@Override
     string virtual getDescription()
     {
-        return "struck";
+        return "Sam Hare, Amir Saffari, Philip H. S. Torr. Struck: Structured Output Tracking with Kernels. 2011";
     }
     
     //@Override

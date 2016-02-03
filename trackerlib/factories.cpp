@@ -175,12 +175,6 @@ Ptr<Tracker> TrackerFactory::createTracker(const string &method, const int argc,
         
         CommandLineParser parser(argc, argv, keys);
         
-        if (parser.has("?"))
-        {
-            parser.printMessage();
-            return tracker;
-        }
-        
         KType type;
         KFeat feat;
         
@@ -203,6 +197,15 @@ Ptr<Tracker> TrackerFactory::createTracker(const string &method, const int argc,
             feat = KFeat::FHOG;
         
         tracker = new SKCFDCF(KType::GAUSSIAN, KFeat::FHOG, parser.has("s"));
+        
+        if (parser.has("?"))
+        {
+            parser.about(tracker->getDescription());
+            parser.printMessage();
+            return Ptr<Tracker>();
+        }
+        
+        
     }
     if (method == "ncc")
     {
@@ -211,12 +214,14 @@ Ptr<Tracker> TrackerFactory::createTracker(const string &method, const int argc,
         
         CommandLineParser parser(argc, argv, keys);
         
+        tracker = new NCCTracker();
+        
         if (parser.has("?"))
         {
+            parser.about(tracker->getDescription());
             parser.printMessage();
-            return tracker;
+            return Ptr<Tracker>();
         }
-        tracker = new NCCTracker();
     }
     if (method == "kcf")
     {
@@ -227,11 +232,6 @@ Ptr<Tracker> TrackerFactory::createTracker(const string &method, const int argc,
         
         CommandLineParser parser(argc, argv, keys);
         
-        if (parser.has("?"))
-        {
-            parser.printMessage();
-            return tracker;
-        }
         
         bool HOG = true;
         bool FIXEDWINDOW = false;
@@ -255,6 +255,28 @@ Ptr<Tracker> TrackerFactory::createTracker(const string &method, const int argc,
         }
         
         tracker = new KCFTracker(HOG, FIXEDWINDOW, MULTISCALE, LAB);
+        if (parser.has("?"))
+        {
+            parser.about(tracker->getDescription());
+            parser.printMessage();
+            return Ptr<Tracker>();
+        }
+    }
+    if (method == "kcf2")
+    {
+        const String keys =
+        "{? usage           |       | print this message}";
+        
+        CommandLineParser parser(argc, argv, keys);
+        
+        
+        tracker = new KCF_Tracker();
+        if (parser.has("?"))
+        {
+            parser.about(tracker->getDescription());
+            parser.printMessage();
+            return Ptr<Tracker>();
+        }
     }
     if (method == "struck")
     {
@@ -263,12 +285,13 @@ Ptr<Tracker> TrackerFactory::createTracker(const string &method, const int argc,
         
         CommandLineParser parser(argc, argv, keys);
         
+        tracker = new STRUCKtracker();
         if (parser.has("?"))
         {
+            parser.about(tracker->getDescription());
             parser.printMessage();
-            return tracker;
+            return Ptr<Tracker>();
         }
-        tracker = new STRUCKtracker();
     }
     if (method == "tld")
     {
@@ -277,12 +300,15 @@ Ptr<Tracker> TrackerFactory::createTracker(const string &method, const int argc,
         
         CommandLineParser parser(argc, argv, keys);
         
+        tracker = new OpenTLD();
+        
         if (parser.has("?"))
         {
+            parser.about(tracker->getDescription());
             parser.printMessage();
-            return tracker;
+            return Ptr<Tracker>();
         }
-        tracker = new OpenTLD();
+        
     }
     
 

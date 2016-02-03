@@ -43,7 +43,7 @@ int main(int argc, const char * argv[])
     const String keys =
         "{help h            |           | print this message}"
         "{@sequence         |           | url, file, folder, vot_sequence, sequence}"
-        "{m method          |skcf       | tracking method: kcf, skcf, ncc, tld, struck, ...}"
+        "{m method          |skcf       | tracking method: kcf, kcf2, skcf, ncc, tld, struck, ...}"
         "{p pause           |           | start sequence paused}"
         "{o output          |           | output video filename / folder for images output}"
     ;

@@ -83,58 +83,7 @@ public:
     //@Override
     string virtual getDescription()
     {
-        string prefix  = "", suffix = "";
-        KType type = kcf.getType();
-        KFeat feat = kcf.getFeature();
-        
-        switch (type)
-        {
-            case KType::GAUSSIAN:
-            {
-                prefix = "KCF(G)";
-                break;
-            }
-            case KType::POLYNOMIAL:
-            {
-                prefix = "KCF(P)";
-                break;
-            }
-            case KType::LINEAR:
-            {
-                prefix = "DCF";
-                break;
-            }
-        }
-        switch (feat)
-        {
-            case KFeat::GRAY:
-            {
-                suffix = "_G";
-                break;
-            }
-            case KFeat::RGB:
-            {
-                suffix = "_RGB";
-                break;
-            }
-            case KFeat::FHOG:
-            {
-                suffix = "_FHOG";
-                break;
-            }
-            case KFeat::HSV:
-            {
-                suffix = "_HSV";
-                break;
-            }
-            case KFeat::HLS:
-            {
-                suffix = "_HLS";
-                break;
-            }
-                
-        }
-        return prefix + suffix + ((kcf.hasScale())?"_S":"");
+        return "Andrés Solís Montero. sKCF: Scalable Kernel Correlation Filter with Sparse Feature Integration. 2015";
     }
     
     

@@ -145,7 +145,7 @@ public:
      */
     string virtual getDescription()
     {
-        return "opentld";
+        return "Georg Nebehay, OpenTLD. 2011";
     };
 };
 

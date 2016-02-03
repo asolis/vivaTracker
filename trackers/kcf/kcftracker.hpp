@@ -109,7 +109,7 @@ public:
                _roi.tl() + Point(0, _roi.height)};
         
     }
-    string virtual getDescription() { return "kcf";};
+    string virtual getDescription() { return "Joao Faro, Christian Bailer, Joao F. Henriques. KCF: Kernelized Correlation Filter. 2015";};
 
     float interp_factor; // linear interpolation factor for adaptation
     float sigma; // gaussian kernel bandwidth

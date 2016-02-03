@@ -42,6 +42,7 @@
 #include "tracking_process.h"
 #include "skcfdcf.h"
 #include "kcftracker.hpp"
+#include "kcf.h"
 #include "ncc.h"
 #include "opentld.h"
 #include "STRUCKtracker.h"
