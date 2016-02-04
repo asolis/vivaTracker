@@ -1,6 +1,6 @@
 ## Welcome to vivaTracker
 
-The idea of this open source project is to unify, recollect, create and publish your C,and C++ visual tracking algorithms for the tracking community. 
+The idea of this open source project is to unify, recollect, create and publish your C, and C++ visual tracking algorithms for the tracking community. 
 We are also interested in including annotated tracking datasets for easy integration and analysis of the different algorithms. 
 
 Many benchmarks with different evaluation methodologies for tracking algorithms are public available.
