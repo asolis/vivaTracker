@@ -5,12 +5,12 @@ We are also interested in including annotated tracking datasets for easy integra
 
 Many benchmarks with different evaluation methodologies for tracking algorithms are public available.
 Among the most relevant benchmarks we find the [Visual Tracker Benchmark](https://sites.google.com/site/trackerbenchmark/benchmarks/v10) and the [VOT Challenges](http://www.votchallenge.net).
+
 This project does **NOT** concern in the evaluation of the algorithms.
 We are just interested in recollect and make public available existing tracking algorithms for the community.
 This way, researches and developers can learn, compare and execute the different tracking methods on their own datasets or existing ones. 
  
-We provide a cross-platform framework for easy algorithm integration and execution of tracking algorithms on annotated datasets. 
-The project uses cmake system generator to facilitate the development and testing of the algorithms in your own platform/IDE.
+We provide a cross-platform framework for easy algorithm integration and execution of tracking algorithms on annotated datasets. The project uses cmake system generator to facilitate the development and testing of the algorithms in your own platform/IDE.
 
 Currently, the project incorporates some tracking algorithms (i.e., sKCF, KCF, STRUCK, OpenTLD, and NCC) and all the VOT Challenge datasets.
 
