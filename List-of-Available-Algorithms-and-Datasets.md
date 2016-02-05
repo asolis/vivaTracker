@@ -102,3 +102,17 @@ Sam Hare
 
 > <b>References</b>:  
 [5] Sam Hare, Amir Saffari, Philip H. S. Torr,  [" Struck: Structured Output Tracking with Kernels"](http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=6126251&url=http%3A%2F%2Fieeexplore.ieee.org%2Fxpls%2Fabs_all.jsp%3Farnumber%3D6126251),International Conference on Computer Vision (ICCV), 2011.
+
+
+#####NCC
+> <b>Description</b>:  
+ A simple normalized cross-correlation tracker. This implementation is based in the NCC tracker utilized to compare and accept trackers into [VOT Challenges](http://www.votchallenges.net) submissions. This algorithm is capable of compute the normalized cross-correlation in inputs with single and multiple channels such as: GRAY, RGB, HSV, HSL, LAB ... etc . 
+
+> <b>Authors</b>:   
+Andres Solis Montero
+
+> <b>License</b>:   
+>BSD 3-Clause License
+
+> <b>References</b>:  
+[VOT Challenge](http://www.votchallenges.net)
