@@ -1,9 +1,9 @@
 #### Trackers
-* [**sKCF**](#skcf)
-* **KCF**
-* **STRUCK**
-* **OpenTLD**
-* **NCC**
+* [sKCF](#skcf)
+* [KCF](#kcf)
+* [STRUCK](#struck)
+* [OpenTLD](#opentld)
+* [NCC](#ncc)
 
 
 #### Datasets
@@ -20,10 +20,7 @@
 #### Descriptions
 
 #####sKCF
-Description:
-
-Authors:
-
-License:
-
-References:
+Description:  
+Authors:  
+License:  
+References:  
