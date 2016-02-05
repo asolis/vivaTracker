@@ -7,7 +7,7 @@ We also include public tracking datasets for easy integration and analysis of th
 
 This project does **NOT** evaluate and compare tracking methods. Many benchmarks with different evaluation methodologies for tracking algorithms are public available.
 Among the most relevant benchmarks you could find the [Visual Tracker Benchmark](https://sites.google.com/site/trackerbenchmark/benchmarks/v10) and the [VOT Challenges](http://www.votchallenge.net).
-We are just interested in collecting and publishing tracking algorithm implementations.
+We are just interested in collecting and publishing the algorithm implementations and datasets.
 This way, researches and developers can learn, compare and execute the different methods on their own sequences or existing datasets. 
  
 We provide a cross-platform framework for easy algorithm integration and execution on annotated datasets. The project uses cmake system generator to facilitate the development and testing of the algorithms in your own platform/IDE.
