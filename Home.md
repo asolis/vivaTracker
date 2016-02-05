@@ -14,6 +14,7 @@ We provide a cross-platform framework for easy integration and execution of trac
 
 The **vivaTracker** framework is a C++11 cross-platform project to create, compare and test object tracking algorithms using OpenCV 3.x.x. 
 
+For more detailed information about the implementations and datasets provided in this project reefer to the project's  [list](https://github.com/asolis/vivaTracker/wiki).
 
 ## Requirements
 * [CMake](http://cmake.org) > 3.0
@@ -26,9 +27,8 @@ The **vivaTracker** framework is a C++11 cross-platform project to create, compa
 Mac, Linux, Windows
 
 ## Getting Started
-* List of available trackers 
-* List of available datasets
+* Setting up your development environment
+* Command line options
+* List of trackers and datasets
 
 
-
-For more detailed information about the implementations and datasets provided in this project reefer to the project's  [list](https://github.com/asolis/vivaTracker/wiki).
