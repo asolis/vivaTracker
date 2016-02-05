@@ -31,4 +31,4 @@ Mac, Linux, Windows
 
 
 
-For more detailed information reefer to the project's  [wiki](https://github.com/asolis/vivaTracker/wiki).
+For more detailed information about the implementations and datasets provided in this project reefer to the project's  [list](https://github.com/asolis/vivaTracker/wiki).
