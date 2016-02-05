@@ -10,7 +10,7 @@ Among the most relevant benchmarks you could find the [Visual Tracker Benchmark]
 We are just interested in collecting and publishing the algorithm implementations and datasets.
 This way, researches and developers can learn, compare and execute the different methods on their own sequences or existing datasets. 
  
-We provide a cross-platform framework for easy algorithm integration and execution on annotated datasets. The project uses cmake system generator to facilitate the development and testing of the algorithms in your own platform/IDE.
+We provide a cross-platform framework for easy integration and execution of tracking algorithms on annotated datasets. The project uses cmake system generator to facilitate the development and testing of the algorithms in your own platform/IDE.
 
 Currently, the project incorporates some tracking algorithms (i.e., sKCF, KCF, STRUCK, OpenTLD, and NCC) and all the VOT Challenge datasets.
 
