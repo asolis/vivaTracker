@@ -1,7 +1,7 @@
 ## Welcome to vivaTracker
 
 This project contains a collection of visual tracking algorithms implemented in C++ and/or C. 
-The idea of the project is to help you create, unify and publish your visual tracking algorithms with other developers. 
+The idea of the project is to help you create, unify and publish your visual tracking algorithms. 
 We also include public tracking datasets for easy integration and analysis of the algorithms. 
 
 
