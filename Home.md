@@ -1,7 +1,7 @@
 ## Welcome to vivaTracker
 
 The idea of this open source project is to help you create, unify and publish your C, and C++ visual tracking algorithms. 
-We are also including tracking datasets for easy integration and analysis of the different algorithms. 
+We would also like to integrate annotated tracking datasets for easy integration and analysis of the different algorithms. 
 
 Many benchmarks with different evaluation methodologies for tracking algorithms are public available.
 Among the most relevant benchmarks we find the [Visual Tracker Benchmark](https://sites.google.com/site/trackerbenchmark/benchmarks/v10) and the [VOT Challenges](http://www.votchallenge.net).
