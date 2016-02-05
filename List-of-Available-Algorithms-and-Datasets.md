@@ -106,7 +106,7 @@ Sam Hare
 
 #####NCC
 > <b>Description</b>:  
- A simple normalized cross-correlation tracker. This implementation is based in the NCC tracker utilized to compare and accept trackers into [VOT Challenges](http://www.votchallenges.net) submissions. This algorithm is capable of compute the normalized cross-correlation in inputs with single and multiple channels such as: GRAY, RGB, HSV, HSL, LAB ... etc . 
+ A simple normalized cross-correlation tracker. This implementation is based in the NCC tracker utilized to compare and accept trackers into [VOT Challenges](http://www.votchallenge.net) submissions. This algorithm is capable of compute the normalized cross-correlation in inputs with single and multiple channels such as: GRAY, RGB, HSV, HSL, LAB ... etc . 
 
 > <b>Authors</b>:   
 Andres Solis Montero
@@ -115,4 +115,4 @@ Andres Solis Montero
 >BSD 3-Clause License
 
 > <b>References</b>:  
-[VOT Challenge](http://www.votchallenges.net)
+[VOT Challenge](http://www.votchallenge.net)
