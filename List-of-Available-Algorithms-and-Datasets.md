@@ -51,8 +51,8 @@ BSD 3-Clause License
 
 #####KCF2
 > <b>Description</b>:  
- This is a C++ reimplementation of algorithm presented in "High-Speed Tracking with Kernelized Correlation Filters" paper.
-For more info and implementation in other languages visit the [autor's webpage!](http://home.isr.uc.pt/~henriques/circulant/).
+ This is a C++ reimplementation of algorithm presented in "High-Speed Tracking with Kernelized Correlation Filters" paper[2].
+
 
 > <b>Authors</b>:   
 Tomas Vojir
@@ -110,7 +110,7 @@ Sam Hare
  A simple normalized cross-correlation tracker. This implementation is based in the NCC tracker utilized to compare and accept trackers into [VOT Challenges](http://www.votchallenge.net) submissions. This algorithm is capable of compute the normalized cross-correlation in inputs with single and multiple channels such as: GRAY, RGB, HSV, HSL, LAB ... etc . 
 
 > <b>Authors</b>:   
-Andres Solis Montero
+[Andres Solis Montero](http://www.solism.ca)
 
 > <b>License</b>:   
 >BSD 3-Clause License
