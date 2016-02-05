@@ -12,16 +12,16 @@ This way, researches and developers can learn, compare and execute the different
  
 We provide a cross-platform framework for easy integration and execution of tracking algorithms on annotated datasets. The project uses cmake system generator to facilitate the development and testing of the algorithms in your own platform/IDE.
 
-Currently, the project incorporates some tracking algorithms (i.e., sKCF, KCF, STRUCK, OpenTLD, and NCC) and all the VOT Challenge datasets.
-
 The **vivaTracker** framework is a C++11 cross-platform project to create, compare and test object tracking algorithms using OpenCV 3.x.x. 
 
-Enclosed in this project you will also find the **vivalib**  and **trackerlib** libraries.
-The **vivaTracker** project uses concurrent [**vivalib**](https://github.com/asolis/vivaVideo/wiki) 
-to process sequences (i.e., video files, web files, image sequences, etc...) while displaying and generating video outputs of your algorithm. 
+## Requirements
+* [CMake](http://cmake.org) > 3.0
+* C++11 compiler
+* [OpenCV](http://opencv.org) > 3.0
+* [Eigen Library](http://eigen.tuxfamily.org/index.php?title=Main_Page) > 3.0
 
-The **trackerlib** allows simple integration and unifies multiple tracking implementations under the same framework.  
-The **trackerlib** sits on top of the **vivalib** allowing you access to annotated datasets (e.g., VOT datasets) or to your own sequences. 
- 
+
+## Supported Platforms
+Mac, Linux, Windows
+
 For more detailed information reefer to the project's  [wiki](https://github.com/asolis/vivaTracker/wiki).
-
