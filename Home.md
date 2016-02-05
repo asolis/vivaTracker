@@ -21,8 +21,7 @@ The **vivaTracker** project uses concurrent [**vivalib**](https://github.com/aso
 to process sequences (i.e., video files, web files, image sequences, etc...) while displaying and generating video outputs of your algorithm. 
 
 The **trackerlib** allows simple integration and unifies multiple tracking implementations under the same framework.  
-The **trackerlib** sits on top of the **vivalib** to allow access to annotated datasets for object tracking (e.g., VOT datasets) while allowing 
-the use of your own dataset or image sequences. 
+The **trackerlib** sits on top of the **vivalib** allowing you access to annotated datasets (e.g., VOT datasets) or to your own sequences. 
  
 For more detailed information reefer to the project's  [wiki](https://github.com/asolis/vivaTracker/wiki).
 
