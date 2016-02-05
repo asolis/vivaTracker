@@ -1,6 +1,7 @@
 #### Trackers
 * [sKCF](#skcf)
 * [KCF](#kcf)
+* [KCF2](#kcf2)
 * [STRUCK](#struck)
 * [OpenTLD](#opentld)
 * [NCC](#ncc)
@@ -12,9 +13,6 @@
 * [VOT 2014](http://www.votchallenge.net/vot2014/dataset.html)
 * [VOT 2015](http://www.votchallenge.net/vot2015/dataset.html)
 * [VOT TIR 2015](http://www.votchallenge.net/vot2015/dataset.html)
-
-
-
 
 
 #### Descriptions
@@ -76,3 +74,31 @@ Tomas Vojir
 > <b>References</b>:  
 [2] J. F. Henriques, R. Caseiro, P. Martins, J. Batista,   
 ["High-Speed Tracking with Kernelized Correlation Filters"](), TPAMI 2015.
+
+
+#####OpenTLD
+> <b>Description</b>:  
+  C++ implementation of OpenTLD that was originally published in MATLAB by Zdenek Kalal. OpenTLD is used for tracking objects in video streams. This implementation is based solely on open source libraries, meaning that you do not need any commercial products to compile or run it.
+
+> <b>Authors</b>:   
+Georg Nebehay
+
+> <b>License</b>:   
+>GNU General Public License  
+
+> <b>References</b>:  
+[4] Georg Nebehay,  ["Robust Object Tracking Based on Tracking-Learning-Detection"](http://www.gnebehay.com/publications/master_thesis/master_thesis.pdf), Fakultät für Informatik der Technischen Universität Wien, 2012.
+
+
+#####Struck
+> <b>Description</b>:  
+ Structured Output Tracking with Kernels is a C++ reimplementation of the algorithm presented in [5].
+
+> <b>Authors</b>:   
+Sam Hare
+
+> <b>License</b>:   
+>GNU General Public License  
+
+> <b>References</b>:  
+[5] Sam Hare, Amir Saffari, Philip H. S. Torr,  [" Struck: Structured Output Tracking with Kernels"](http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=6126251&url=http%3A%2F%2Fieeexplore.ieee.org%2Fxpls%2Fabs_all.jsp%3Farnumber%3D6126251),International Conference on Computer Vision (ICCV), 2011.
