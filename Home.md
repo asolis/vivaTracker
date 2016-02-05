@@ -30,5 +30,7 @@ Mac, Linux, Windows
 * Setting up your development environment
 * Command line options
 * List of trackers and datasets
+* Adding your tracker
+* Adding your dataset
 
 
