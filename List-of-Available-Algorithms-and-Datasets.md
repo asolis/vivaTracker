@@ -17,9 +17,9 @@
 
 #### Descriptions
 
-#####sKCF (Best real-time method VOT 2015)
+#####sKCF
 > <b>Description</b>:  
- A fast Scalable Kernalized Correlation Filter framework [1]. The implementation allows the user to select between 15 algorithms combinations such as: gaussian, polynomial, and linear (sDCF) correlation filters. It also permits to select different features such as: RGB, HSV, HLS, GRAY (sCSK) color space and fast HOG descriptors. It allows to implement different strategies for its scale estimation step, add more features and/or correlation filters.  
+ (Best real-time method VOT 2015). A fast Scalable Kernalized Correlation Filter framework [1]. The implementation allows the user to select between 15 algorithms combinations such as: gaussian, polynomial, and linear (sDCF) correlation filters. It also permits to select different features such as: RGB, HSV, HLS, GRAY (sCSK) color space and fast HOG descriptors. It allows to implement different strategies for its scale estimation step, add more features and/or correlation filters.  
  
 > <b>Authors</b>:   
 [Andres Solis Montero](http://www.solism.ca)   
