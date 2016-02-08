@@ -1,16 +1,16 @@
 SET(SEQUENCES_PATH ${CMAKE_SOURCE_DIR}/sequences/)
 
-SET(vot2013  http://box.vicos.si/vot/vot2013.zip)
-SET(md5_vot2013  f3347d0b0ca68f6848d81b4ed175b109)
+SET(vot2013  http://www.site.uottawa.ca/research/viva/datasets/tracking/vot2013.tar.gz)
+SET(md5_vot2013  7467447b0d533efcb458ab106c66497a)
 
-SET(vot2014  http://box.vicos.si/vot/vot2014.zip)
-SET(md5_vot2014  910bbf158c6d38f85753967be6455717)
+SET(vot2014  http://www.site.uottawa.ca/research/viva/datasets/tracking/vot2014.tar.gz)
+SET(md5_vot2014  3161df3bfc62802d5f5a66a5d4af82b6)
 
-SET(vot2015  http://box.vicos.si/vot/vot2015.zip)
-SET(md5_vot2015  d7a5ec1d43847335866435567700697e)
+SET(vot2015  http://www.site.uottawa.ca/research/viva/datasets/tracking/vot2015.tar.gz)
+SET(md5_vot2015  2e8c33eed5dc08d8e4892fd9e4c1c2ed)
 
-SET(vot2015tir  http://box.vicos.si/vot/vot2015tir.zip)
-SET(md5_vot2015tir  ee809434aeca81d7fe4f9ab3ba03cac7)
+SET(vot2015tir  http://www.site.uottawa.ca/research/viva/datasets/tracking/vot2015tir.tar.gz)
+SET(md5_vot2015tir  367c1f685d4a28a448f6c4bc2fcb3552)
 
 MACRO(SUBDIRLIST result curdir)
   FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)

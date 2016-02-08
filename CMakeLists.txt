@@ -7,7 +7,6 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 # add opencv package to the project
 FIND_PACKAGE( OpenCV REQUIRED )
-SET(OpenCV_INCLUDE_DIRS "/usr/local/Cellar/opencv3/3.1.0_1/include/opencv;/usr/local/Cellar/opencv3/3.1.0_1/include" ) 
 INCLUDE_DIRECTORIES( ${OpenCV_INCLUDE_DIRS} ) 
 
 MESSAGE(STATUS "Project Name: ${PROJECT_NAME}")
