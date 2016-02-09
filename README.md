@@ -31,7 +31,7 @@ Mac, Linux, Windows
 
      BSD 3-Clause License (https://www.tldrlegal.com/l/bsd3)
      
-     Copyright (c) 2015 Andrés Solís Montero <http://www.solism.ca>, All rights reserved.
+     Copyright (c) 2016 Andrés Solís Montero <http://www.solism.ca>, All rights reserved.
      
      
      Redistribution and use in source and binary forms, with or without modification,
