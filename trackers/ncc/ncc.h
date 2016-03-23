@@ -35,11 +35,6 @@
 #ifndef __VivaTracker__ncc__
 #define __VivaTracker__ncc__
 
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <iostream>
-#include <stdio.h>
 #include "tracker.h"
 
 class NCCTracker :	public Tracker

@@ -55,10 +55,7 @@ public:
 	~SKCFDCF(void)
 	{
 	}
-	void virtual configLoaded()
-    {
-        //readConfig();
-    }
+
 	void setArea(const RotatedRect &rect)
     {
         kcf.setArea(rect);

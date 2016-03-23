@@ -1,34 +1,34 @@
 /**************************************************************************************************
  **************************************************************************************************
- 
-     BSD 3-Clause License (https://www.tldrlegal.com/l/bsd3)
-     
-     Copyright (c) 2016 Andrés Solís Montero <http://www.solism.ca>, All rights reserved.
-     
-     
-     Redistribution and use in source and binary forms, with or without modification,
-     are permitted provided that the following conditions are met:
-     
-     1. Redistributions of source code must retain the above copyright notice,
-        this list of conditions and the following disclaimer.
-     2. Redistributions in binary form must reproduce the above copyright notice,
-        this list of conditions and the following disclaimer in the documentation
-        and/or other materials provided with the distribution.
-     3. Neither the name of the copyright holder nor the names of its contributors
-        may be used to endorse or promote products derived from this software
-        without specific prior written permission.
-     
-     THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-     AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-     IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-     ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-     LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-     DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-     LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-     THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-     OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
-     OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
+ BSD 3-Clause License (https://www.tldrlegal.com/l/bsd3)
+
+ Copyright (c) 2016 Andrés Solís Montero <http://www.solism.ca>, All rights reserved.
+
+
+ Redistribution and use in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+
+ 1. Redistributions of source code must retain the above copyright notice,
+ this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+ this list of conditions and the following disclaimer in the documentation
+ and/or other materials provided with the distribution.
+ 3. Neither the name of the copyright holder nor the names of its contributors
+ may be used to endorse or promote products derived from this software
+ without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ OF THE POSSIBILITY OF SUCH DAMAGE.
+
  **************************************************************************************************
  **************************************************************************************************/
 
@@ -37,7 +37,8 @@
 
 void NCCTracker::initialize(const cv::Mat &img, const cv::Rect &rect)
 {
-    p_window = MAX(rect.width, rect.height) * 2;
+    //Hold the maximum dimension of the selected area.
+    p_window = MAX(rect.width, rect.height);
 
     int left = MAX(rect.x, 0);
     int top  = MAX(rect.y, 0);
@@ -46,23 +47,29 @@ void NCCTracker::initialize(const cv::Mat &img, const cv::Rect &rect)
     int bottom = MIN(rect.y + rect.height, img.rows - 1);
 
     cv::Rect roi(left, top, right - left, bottom - top);
-
+    //Select the region of interest and copy our template
     img(roi).copyTo(p_template);
 
+    //Update the current centre of the tracked object to the
+    //the centre of the selected area.
     p_position.x = (float)rect.x + (float)rect.width / 2.f;
     p_position.y = (float)rect.y + (float)rect.height / 2.f;
 
+    //Update the size of the object using the selected area
     p_size = cv::Size2f(rect.width, rect.height);
-
+    
 }
 void NCCTracker::processFrame(const cv::Mat &img)
 {
+    //Selecting an area of the image based in the previous
+    //detected target location and in their max dimension
+    //among the two axis. The areas are carefully selected without exceeding
+    // the images boundary
+    float left  = MAX(round(p_position.x - p_window), 0);
+    float top   = MAX(round(p_position.y - p_window), 0);
 
-    float left  = MAX(round(p_position.x - (float)p_window / 2.f), 0);
-    float top   = MAX(round(p_position.y - (float)p_window / 2.f), 0);
-
-    float right  = MIN(round(p_position.x + (float)p_window / 2.f), img.cols - 1);
-    float bottom = MIN(round(p_position.y + (float)p_window / 2.f), img.rows - 1);
+    float right  = MIN(round(p_position.x + p_window), img.cols - 1);
+    float bottom = MIN(round(p_position.y + p_window), img.rows - 1);
 
     cv::Rect roi((int) left, (int) top, (int) (right - left), (int) (bottom - top));
 
@@ -77,15 +84,16 @@ void NCCTracker::processFrame(const cv::Mat &img)
 
     cv::Mat matches;
     cv::Mat cut = img(roi);
-
+    //Mat the selected region to the current tracker model template
     cv::matchTemplate(cut, p_template, matches, CV_TM_CCOEFF_NORMED);
 
+    //Find the location of maximum response, aka the new target location
     cv::Point matchLoc;
     cv::minMaxLoc(matches, NULL, NULL, NULL, &matchLoc, cv::Mat());
-
+    // Update targets position
     p_position.x = left + matchLoc.x + (float)p_size.width / 2.f;
     p_position.y = top + matchLoc.y + (float)p_size.height / 2.f;
-
+    
 }
 
 string NCCTracker::getDescription()
@@ -95,10 +103,12 @@ string NCCTracker::getDescription()
 
 void NCCTracker::getTrackedArea(vector<Point2f> &pts)
 {
-    pts = {Point2f(p_position.x - (float)p_size.width/2.f, p_position.y - (float)p_size.height/2.f),
-           Point2f(p_position.x + (float)p_size.width/2.f, p_position.y - (float)p_size.height/2.f),
-           Point2f(p_position.x + (float)p_size.width/2.f, p_position.y + (float)p_size.height/2.f),
-           Point2f(p_position.x - (float)p_size.width/2.f, p_position.y + (float)p_size.height/2.f)};
-    
+    float w2 = p_size.width/2.f;
+    float h2 = p_size.height/2.f;
+    pts = {Point2f(p_position.x - w2, p_position.y - h2),
+        Point2f(p_position.x + w2, p_position.y - h2),
+        Point2f(p_position.x + w2, p_position.y + h2),
+        Point2f(p_position.x - w2, p_position.y + h2)};
+
 }
 

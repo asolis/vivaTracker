@@ -38,7 +38,6 @@
 
 #include <iostream>
 
-#include "tracker.h"
 #include "tracking_process.h"
 #include "skcfdcf.h"
 #include "kcftracker.hpp"

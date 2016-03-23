@@ -1,16 +1,24 @@
+##Default **sequences** folder path
 SET(SEQUENCES_PATH ${CMAKE_SOURCE_DIR}/sequences/)
 
+## Url and md5 hash value for the vot2013 dataset
 SET(vot2013  http://www.site.uottawa.ca/research/viva/datasets/tracking/vot2013.tar.gz)
 SET(md5_vot2013  7467447b0d533efcb458ab106c66497a)
 
+## Url and md5 hash value for the vot2014 dataset
 SET(vot2014  http://www.site.uottawa.ca/research/viva/datasets/tracking/vot2014.tar.gz)
 SET(md5_vot2014  3161df3bfc62802d5f5a66a5d4af82b6)
 
+## Url and md5 hash value for the vot2015 dataset
 SET(vot2015  http://www.site.uottawa.ca/research/viva/datasets/tracking/vot2015.tar.gz)
 SET(md5_vot2015  2e8c33eed5dc08d8e4892fd9e4c1c2ed)
 
+## Url and md5 hash value for the vot2015tir dataset
 SET(vot2015tir  http://www.site.uottawa.ca/research/viva/datasets/tracking/vot2015tir.tar.gz)
 SET(md5_vot2015tir  367c1f685d4a28a448f6c4bc2fcb3552)
+
+## List of datasets available
+SET(DATASETS ${vot2013} ${vot2014} ${vot2015} ${vot2015tir})
 
 MACRO(SUBDIRLIST result curdir)
   FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)
@@ -53,7 +61,6 @@ MACRO(CHECK_VOT_OPT url)
 ENDMACRO()
 
 MACRO(CHECK_VOT_OPTS)
-	SET(DATASETS ${vot2013} ${vot2014} ${vot2015} ${vot2015tir})
 	FOREACH(url ${DATASETS})
 		CHECK_VOT_OPT(${url})
 	ENDFOREACH()
