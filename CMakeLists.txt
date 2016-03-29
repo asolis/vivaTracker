@@ -41,6 +41,6 @@ FILE(GLOB hidden
 FILE(GLOB resources
   "*.*"
 )
-LIST(REMOVE_ITEM resources ${files} ${hidden} "${CMAKE_SOURCE_DIR}/CMakeLists.txt" "${CMAKE_SOURCE_DIR}/macros.txt")
+LIST(REMOVE_ITEM resources ${files} ${hidden} "${CMAKE_SOURCE_DIR}/CMakeLists.txt" "${CMAKE_SOURCE_DIR}/macros.txt" "${CMAKE_SOURCE_DIR}/precomp.h.in")
 FILE(COPY ${resources} DESTINATION "Debug")
 FILE(COPY ${resources} DESTINATION "Release")
