@@ -18,7 +18,14 @@ SET(vot2015tir  http://www.site.uottawa.ca/research/viva/datasets/tracking/vot20
 SET(md5_vot2015tir  367c1f685d4a28a448f6c4bc2fcb3552)
 
 ## List of datasets available
-SET(DATASETS ${vot2013} ${vot2014} ${vot2015} ${vot2015tir})
+SET(_DATASETS_ vot2013 vot2014 vot2015 vot2015tir)
+
+## Create an option for each dataset
+FOREACH(dataset ${_DATASETS_})
+	STRING(TOUPPER "DOWNLOAD_${dataset}" opt)
+	OPTION(${opt} "Download video sequences from ${dataset} dataset" OFF)
+	LIST(APPEND DATASETS ${${dataset}}) 
+ENDFOREACH()
 
 MACRO(SUBDIRLIST result curdir)
   FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)
@@ -39,10 +46,11 @@ MACRO(UNZIP file dest)
     )
 ENDMACRO()
 
-MACRO(CHECK_VOT_OPT url)
+MACRO(CHECK_DATASET url)
 	GET_FILENAME_COMPONENT(name ${url} NAME_WE)
 	GET_FILENAME_COMPONENT(filename ${url} NAME)
-	IF(${download_${name}})
+	STRING(TOUPPER "DOWNLOAD_${name}" opt)
+	IF(${opt})
 	
 		SET (DATASET "${SEQUENCES_PATH}${filename}")
 		SET (DATASET_FOLDER ${SEQUENCES_PATH}${name}/)
@@ -60,9 +68,35 @@ MACRO(CHECK_VOT_OPT url)
 	ENDIF()
 ENDMACRO()
 
-MACRO(CHECK_VOT_OPTS)
+MACRO(CHECK_DATASETS)
 	FOREACH(url ${DATASETS})
-		CHECK_VOT_OPT(${url})
+		CHECK_DATASET(${url})
 	ENDFOREACH()
 	FILE(WRITE ${CMAKE_SOURCE_DIR}/sequences.txt "${SEQUENCES_PATH}" )
 ENDMACRO()
+
+
+SUBDIRLIST(TRACKERS "${CMAKE_SOURCE_DIR}/trackers/")
+FOREACH(tracker ${TRACKERS})
+	STRING(TOUPPER "WITH_${tracker}" opt)
+	OPTION(${opt} "Tracker enabled" OFF)
+	MESSAGE(STATUS "    found tracker: ${tracker}")
+	LIST(APPEND _TRACKERS_ ${tracker})
+ENDFOREACH()
+
+
+MACRO(CHECK_TRACKERS)
+	FOREACH(tracker ${_TRACKERS_})
+	STRING(TOUPPER "WITH_${tracker}" opt)
+	IF(${opt})
+			SUBDIRS("trackers/${tracker}")
+			INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/trackers/${tracker})
+			TARGET_LINK_LIBRARIES( ${PROJECT_NAME} ${tracker})
+			MESSAGE(STATUS "    tracker included: ${tracker}")
+	ENDIF()
+	ENDFOREACH()
+ENDMACRO()
+
+
+configure_file(precomp.h.in precomp.h @ONLY)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})

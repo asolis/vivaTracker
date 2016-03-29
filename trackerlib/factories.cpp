@@ -164,7 +164,7 @@ Ptr<Tracker> TrackerFactory::createTracker(const string &method, const int argc,
 {
     Ptr<Tracker> tracker;
     argv[0] = method.c_str();
-    
+#ifdef WITH_SKCF
     if (method == "skcf")
     {
         const String keys =
@@ -207,6 +207,8 @@ Ptr<Tracker> TrackerFactory::createTracker(const string &method, const int argc,
         
         
     }
+#endif
+#ifdef WITH_NCC
     if (method == "ncc")
     {
         const String keys =
@@ -223,6 +225,8 @@ Ptr<Tracker> TrackerFactory::createTracker(const string &method, const int argc,
             return Ptr<Tracker>();
         }
     }
+#endif
+#ifdef WITH_KCF
     if (method == "kcf")
     {
         const String keys =
@@ -262,6 +266,8 @@ Ptr<Tracker> TrackerFactory::createTracker(const string &method, const int argc,
             return Ptr<Tracker>();
         }
     }
+#endif
+#ifdef WITH_KCF2
     if (method == "kcf2")
     {
         const String keys =
@@ -278,6 +284,8 @@ Ptr<Tracker> TrackerFactory::createTracker(const string &method, const int argc,
             return Ptr<Tracker>();
         }
     }
+#endif
+#ifdef WITH_STRUCK
     if (method == "struck")
     {
         const String keys =
@@ -293,7 +301,9 @@ Ptr<Tracker> TrackerFactory::createTracker(const string &method, const int argc,
             return Ptr<Tracker>();
         }
     }
-    if (method == "tld")
+#endif
+#ifdef WITH_OPENTLD
+    if (method == "opentld")
     {
         const String keys =
         "{? usage           |       | print this message}";
@@ -310,6 +320,7 @@ Ptr<Tracker> TrackerFactory::createTracker(const string &method, const int argc,
         }
         
     }
+#endif
     
 
     return tracker;

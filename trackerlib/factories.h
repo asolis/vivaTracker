@@ -36,15 +36,34 @@
 #ifndef __VivaTracker__factory__
 #define __VivaTracker__factory__
 
-#include <iostream>
-
+#include "precomp.h"
 #include "tracking_process.h"
-#include "skcfdcf.h"
-#include "kcftracker.hpp"
-#include "kcf.h"
-#include "ncc.h"
-#include "opentld.h"
-#include "STRUCKtracker.h"
+
+
+#ifdef WITH_SKCF
+    #include "skcfdcf.h"
+#endif
+
+#ifdef WITH_KCF
+    #include "kcftracker.hpp"
+#endif 
+
+#ifdef WITH_KCF2
+    #include "kcf.h"
+#endif
+
+#ifdef WITH_NCC
+    #include "ncc.h"
+#endif
+
+#ifdef WITH_OPENTLD
+    #include "opentld.h"
+#endif 
+
+#ifdef WITH_STRUCK
+    #include "STRUCKtracker.h"
+#endif 
+
 
 class TrackerFactory
 {

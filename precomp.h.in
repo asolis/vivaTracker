@@ -1,0 +1,6 @@
+#cmakedefine WITH_STRUCK
+#cmakedefine WITH_SKCF
+#cmakedefine WITH_OPENTLD
+#cmakedefine WITH_KCF2
+#cmakedefine WITH_KCF
+#cmakedefine WITH_NCC

@@ -37,14 +37,12 @@
 
 #include "viva.h"
 #include "tracker.h"
-
 #include <fstream>
 
 
 using namespace viva;
 using namespace std;
 using namespace cv;
-
 
 class RectSelectArea
 {
@@ -71,14 +69,11 @@ struct Color
 };
 
 
-
-
 class TrackingProcess: public ProcessFrame
 {
     Ptr<Tracker> tracker;
     RectSelectArea selectedArea;
     bool trackerInitialized;
-    
     vector<vector<Point2f> > groundTruth;
     
 public:
@@ -86,8 +81,7 @@ public:
     TrackingProcess(const Ptr<Tracker> &trk, const vector<vector<Point2f> > &gt):
         tracker(trk), selectedArea(), trackerInitialized(false), groundTruth(gt)
     {}
-    
-    
+
     void setTracker(const Ptr<Tracker> &trk);
     //@Override
     void leftButtonDown(int x, int y, int flags);
@@ -95,19 +89,12 @@ public:
     void mouseMove(int x, int y, int flags);
     //@Override
     void operator()(const size_t frameN, const Mat &frame, Mat &output);
-    
 };
-
-
 
 
 class Draw
 {
-
-    
 public:
-
-    
     static void drawPoints(Mat &image,
                            const vector<Point2f> &pts,
                            const Scalar &color,
@@ -117,17 +104,13 @@ public:
                                  const RectSelectArea &area,
                                  const Scalar &color = Color::red,
                                  int thickness = 3);
-    
 
-    
     static void drawQuadrangle(Mat &frameOut,
                                const vector<Point2f> &corners,
                                const Scalar &color,
                                const Point2f &shift = Point2f(0,0),
                                const int thickness = 2);
-    
-  
-    
+
     static void drawQuadrangle(Mat &frameOut,
                                const Point2f &one,
                                const Point2f &two,
@@ -136,8 +119,7 @@ public:
                                const Scalar &color,
                                const Point2f &shift = Point2f(0,0),
                                const int thickness = 2);
-    
-    
+
 };
 
 #endif /* defined(__h7__tracking_process__) */
