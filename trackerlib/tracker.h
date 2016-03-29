@@ -43,21 +43,21 @@
 using namespace std;
 using namespace cv;
 
-/*
+/**
  * Tracker interface
  */
 class Tracker
 {
 public:
     
-  /*
+  /**
    * This represent the current tracked area in clockwise order. e.g. : 
    * topLeft - > topRight -> bottomRight -> bottomLeft.
    * @param vector<Point2f> &pts. The tracked area will be filled  in this vector
    */
   void virtual getTrackedArea(vector<Point2f> &pts) = 0;
     
-  /*
+  /**
    * Initialize the tracker using the first image with the selected area
    * using two points. The two points create a rectangular selection inside the image.
    * @param Mat &image,       The first reference frame where the area is specified.
@@ -65,21 +65,21 @@ public:
    */
   void virtual initialize(const cv::Mat &image,
                           const cv::Rect &rect) = 0;
-  /*
+  /**
    * This should be called every time after the tracker is initialized.
    * The image is the current frame being processed.
    * @param Mat &image. processing frame.
    */
   void virtual processFrame(const cv::Mat &image) = 0;
     
-  /*
+  /**
    * Each tracker has an string description of its name
    * or condition.
    * e.g.  "OpenTLD" , "CMT", etc.
    */
    string virtual getDescription() { return "default";};
     
-  /*
+  /**
    * Just in case dynamic allocated memory needs to be destroyed
    * Abstract class should have a destructor....
    */

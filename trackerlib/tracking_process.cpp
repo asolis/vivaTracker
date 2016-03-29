@@ -172,16 +172,6 @@ void Draw::drawSelectedArea(Mat &image,
 }
 
 
-void Draw::drawPoints(Mat &image,
-                            const vector<Point2f> &pts,
-                            const Scalar &color,
-                            int thickness)
-{
-    for (size_t i = 0; i < pts.size() ; i++)
-    {
-        line(image, pts[i], pts[i], color, thickness);
-    }
-}
 void Draw::drawQuadrangle(Mat &frameOut,
                                 const vector<Point2f> &corners,
                                 const Scalar &color,

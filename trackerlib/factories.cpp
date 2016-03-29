@@ -38,7 +38,7 @@
 string TrackerFactory::SEQ_BASE_FILE     = "sequences.txt";
 string TrackerFactory::GROUND_TRUTH_FILE = "groundtruth.txt";
 
-void GroundTruth::parse(const string file, vector<vector<Point2f> > &gt)
+void GroundTruth::parse(const string &file, vector<vector<Point2f> > &gt)
 {
     gt.clear();
     

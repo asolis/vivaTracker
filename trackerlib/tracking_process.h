@@ -44,18 +44,52 @@ using namespace viva;
 using namespace std;
 using namespace cv;
 
+/**
+ *  RecSelectArea class
+ *
+ *  Defines a axis-aligned rectangular selection area
+ *  by using the top-left and bottom-right corner selections
+ *
+ */
 class RectSelectArea
 {
-    int _state;
+    int _state; /**< different states of a selection area: 0, 1, 2*/
 public:
     vector<Point2f> _loc;
+    /**
+     * Default constructor
+     */
     RectSelectArea();
+    /**
+     * Updates location of the bottom right corner to the specified
+     * images coordinates x and y
+     * @param x: x-coordinate value in the image
+     * @param y: y-coordinate value in the image
+     */
     void mouseMove(int x, int y);
+    /**
+     *  Updates the corner locations corresponding to the 
+     *  current state.
+     * @param x: x-coordinate value in the image
+     * @param y: y-coordinate value in the image
+     */
     void setClick(int x , int y);
+    /**
+     *  Returns if the rectangular area has a complete selection
+     *  _state has a value of 2
+     */
     bool isSelected();
+    /**
+     * Return the Rectangular area defined by the two corners
+     */
     Rect getBoundingBox();
 };
 
+/**
+ *  Color struct. 
+ *  Custom color codes used by the Draw class
+ *  The color are specified in BGR format (i.e., blue, gree, and red)
+ */
 struct Color
 {
     const static Scalar red;
@@ -69,48 +103,103 @@ struct Color
 };
 
 
+/**
+ * TrackingProcess class
+ * Inherites from vivalib ProcessFrame class to define a
+ * functor class that is called each time an input frame is available form the
+ * sequence and also handles mouse and keyboard events.
+ */
 class TrackingProcess: public ProcessFrame
 {
-    Ptr<Tracker> tracker;
-    RectSelectArea selectedArea;
-    bool trackerInitialized;
-    vector<vector<Point2f> > groundTruth;
+    Ptr<Tracker> tracker; /**< Pointer to tracker interface, holds the tracking algorithm created by TrackerFactory*/
+    RectSelectArea selectedArea; /**< Rectangular area selection in the video sequence */
+    bool trackerInitialized;  /**< Identifies if the tracker has been initialized or not */
+    vector<vector<Point2f> > groundTruth; /**< ground truth data if available to the sequence*/
     
 public:
-  
+
+    /**
+     * Constructor of a tracking process
+     * @see Tracker
+     * @see TrackerFactory
+     * @param trk : pointer to a Tracker object. 
+     * @param gt:  ground-truth defined as a 2D list points. 
+     * The ground-truth area for frame number N can be found by gt[N].
+     */
     TrackingProcess(const Ptr<Tracker> &trk, const vector<vector<Point2f> > &gt):
         tracker(trk), selectedArea(), trackerInitialized(false), groundTruth(gt)
     {}
 
+    /*
+     *  Set pointer to tracking algorithm
+     *  @param trk: traking algorithm
+     */
     void setTracker(const Ptr<Tracker> &trk);
-    //@Override
+    /**
+     * Override from ProcessFrame class in vivalib
+     * Handles mouse left clicks. Used to defined new rectangular selection areas 
+     * in the displayed windows and intilialize the tracker.
+     * @param x: x-coordinate of the clicked pixel in the image
+     * @param y: y-coordinate of the clicked pixel in the image
+     * @param flags: OpenCV flags for mouse clicks
+     */
     void leftButtonDown(int x, int y, int flags);
-    //@Override
+    /**
+     * Override from ProcessFrame class in vivalib
+     * Handles mouse movements over the displayed window.
+     * @param x: x-coordinate of the current location of the mouse in the displayed window
+     * @param y: y-coordinate of the current location of the mouse in the displayed window
+     * @param flags: OpenCV flag
+     */
     void mouseMove(int x, int y, int flags);
-    //@Override
+    /**
+     * Functor operator called each time that an input frame is available
+     * @param frameN: number of the frame
+     * @param frame: the frame image
+     * @param output: the processed tracking output image
+     *
+     */
     void operator()(const size_t frameN, const Mat &frame, Mat &output);
 };
 
-
+/**
+ * Util class for drawing basic figures over the video sequence
+ *
+ */
 class Draw
 {
 public:
-    static void drawPoints(Mat &image,
-                           const vector<Point2f> &pts,
-                           const Scalar &color,
-                           int thickness = 2);
-    
+
+    /**
+     * Draws the Rectangular selected area over the image using the specified color and thickness.
+     * @param image: image canvas where to draw the selection area
+     * @param area: the selection area to draw
+     * @param color: color of selected area lines
+     * @param thicknes: thickness of the selected area lines
+     */
     static void drawSelectedArea(Mat &image,
                                  const RectSelectArea &area,
                                  const Scalar &color = Color::red,
                                  int thickness = 3);
 
+    /**
+     * Draws a four-sided polygon defined for a list of points 
+     * @param frameOut: the image canvas where to draw
+     * @param corners: list of corners locations of the four-sided polygon
+     * @param color: color of selected area lines
+     * @param shift: vector to add to each corner before drawing, by default vector(0,0)
+     * @param thicknes: thickness of the selected area lines
+     */
     static void drawQuadrangle(Mat &frameOut,
                                const vector<Point2f> &corners,
                                const Scalar &color,
                                const Point2f &shift = Point2f(0,0),
                                const int thickness = 2);
 
+    /**
+     * Draws a four-sided polygon defined by four points instead of a list
+     * @see drawQuadrangle(Mat &frameOut, const vector<Point2f> &corners, ...)
+     */
     static void drawQuadrangle(Mat &frameOut,
                                const Point2f &one,
                                const Point2f &two,
