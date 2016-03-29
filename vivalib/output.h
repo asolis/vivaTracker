@@ -44,6 +44,9 @@ using namespace std;
 
 namespace viva
 {
+    /**
+     *  Abstract Output class to define a video sequence output.
+     */
     class Output
     {
     protected:
@@ -51,6 +54,10 @@ namespace viva
         bool _convert;
         int  _conversionFlag;
     public:
+        /**
+         * Output constructor defining the resolution and 
+         * video type using OpenCV conversion flags e.g., CV_BGR2GRAY
+         */
         Output(const Size &size = Size(-1, -1),
                int  conversionFlag = -1):
                 _size(size),
@@ -60,13 +67,25 @@ namespace viva
             if (conversionFlag != -1)
                 _convert = true;
         }
+        /**
+         * Desctructor
+         */
         virtual ~Output(){}
+        /**
+         * Method call to output a new frame to the final output sequence
+         * @returns true if the Mat frame was sucessfully written
+         */
         virtual bool  writeFrame(Mat &frame)= 0;
+
+        /**
+         * Mehtod called to close the output medium
+         */
         virtual void  close() {}
     };
-    
-    //=========================================
-    
+
+    /**
+     * An Output class that does nothing.
+     */
     class NoneOutput : public Output
     {
     public:
@@ -79,8 +98,10 @@ namespace viva
         }
     };
     
-    //============================================
-    
+    /**
+     * An Image Sequence Output that creates a directory
+     * an add images using a regular pattern construction filename
+     */
     class ImageOutput: public Output
     {
     private:
@@ -91,18 +112,32 @@ namespace viva
         int    _suffix;
         
     public:
-        
+
+        /**
+         *  ImageOutput constructor
+         *  generates a directory containing a list of images
+         *  using an incremental regular pattern filename dessign
+         */
         ImageOutput(const string &directory,
                     const Size &size = Size(-1, -1),
                     int suffixSize = 5,
                     int  conversionFlag = -1);
-        
+
+        /**
+         * Override from Output Base class
+         */
         virtual bool writeFrame(Mat &frame);
         
     };
-    //============================================
+
     
-   
+
+    /**
+     * OpenCV supported CODEC value outputs
+     * The LIST value is only available for the Windows Platform
+     * where a popup will appear, listing all available codecs and allowing 
+     * the user to select one.
+     */
     enum class CODEC : int {
 		LIST = CV_FOURCC_PROMPT,
         MPG1  = CV_FOURCC_MACRO('P','I','M','1'),     //MPEG-1
@@ -116,6 +151,11 @@ namespace viva
         H264  = CV_FOURCC_MACRO('X','2','6','4')      //H.264
     };
 
+    /**
+     * Video Output class. 
+     * Generates a video file using an specified coded, resolution, 
+     * frame per second rate and conversionflag
+     */
     class VideoOutput: public Output
     {
         VideoWriter output;
@@ -127,20 +167,36 @@ namespace viva
         void createOutput();
         
     public:
+        /**
+         * Creates a Video Output using the 
+         * @param filename: video file filename
+         * @param size: scale the final video output to the desired resolution
+         * @param fps: frame per seconds
+         * @param codec: One of the available OpenCV codecs installed in your computer
+         * @param codeFlag: color conversion e.g., CV_BGR2GRAY
+         */
         VideoOutput(const string &filename,
                     Size size   = Size(-1,-1),
                     int fps     = 30,
                     CODEC codec = CODEC::MPEG4,
                     int codeFlag = -1);
-        
+
+        /**
+         * Override from Output base class
+         */
         virtual bool writeFrame(Mat &frame);
-        
+
+        /**
+         * Set the codec to use while generating the video file
+         */
         void setCodec(CODEC codec)
         {
             _codec = codec;
         }
         
-        
+        /**
+         * Destructor will release the VideoWriter output
+         */
         ~VideoOutput()
         {
             output.release();

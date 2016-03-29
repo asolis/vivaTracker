@@ -49,7 +49,11 @@ using namespace std;
 using namespace cv;
 
 namespace viva {
-    
+
+    /**
+     * Thread safe guard created to ensure all threads are joing 
+     * when exiting their scope.
+     */
     class thread_guard
     {
         std::thread& t;
@@ -85,7 +89,9 @@ namespace viva {
         void operator()();
     };
     
-    
+    /**
+     * ProcessFrame functor interface accepting mouse and keyboard events
+     */
     class ProcessFrame : public MouseListener, public KeyboardListener
     {
     public:
@@ -95,19 +101,37 @@ namespace viva {
             output = frame.clone();
         };
         
-        //Inherited from MouseListener. Check MouseListener class for details
+        /**
+         *Inherited from MouseListener. Check MouseListener class for details
+         */
         virtual void mouseInput(int event, int x, int y, int flags){};
+        /**
+         *Inherited from MouseListener. Check MouseListener class for details
+         */
         virtual void leftButtonDown(int x, int y, int flags){};
+        /**
+         *Inherited from MouseListener. Check MouseListener class for details
+         */
         virtual void rightButtonDown(int x, int y, int flags){};
+        /**
+         *Inherited from MouseListener. Check MouseListener class for details
+         */
         virtual void middleButtonDown(int x, int y, int flags){};
+        /**
+         *Inherited from MouseListener. Check MouseListener class for details
+         */
         virtual void mouseMove(int x, int y, int flags){};
         
-        //Inherited from KeyboardListerner. Check KeyboardListener class for details.
+        /**
+         * Inherited from KeyboardListerner. Check KeyboardListener class for details.
+         */
         virtual void keyboardInput(int key){};
         
     };
     
-    
+    /**
+     * Batch Process Frame. Process batchs of specific size from the input at once.
+     */
     class BatchProcessFrame : public MouseListener, public KeyboardListener
     {
     protected:
@@ -139,7 +163,7 @@ namespace viva {
     };
     
     
-    /*
+    /**
      *  Parallel Processing Output and communicating through the channel
      */
     class ProcessOutput
@@ -157,7 +181,11 @@ namespace viva {
         void operator()();
     };
     
-    
+    /**
+     * Processor class. 
+     * Entry point of a vivalib program
+     * We need to define an Input , ProcessFrame and Output(optional) before starting to run a processor
+     */
     class Processor
     {
     private:
@@ -257,22 +285,38 @@ namespace viva {
         {
             _process = process;
         }
-        
+        /**
+         * Makes to pause the sequence at the fist frame. Waiting for the user 
+         * to hit the SPACE key in the keyboard to continue the execution of the sequence.
+         * It's usefull when manual user selection is needed before running the algorithm
+         */
         void startPaused()
         {
             _pause = true;
         }
         
-        
+        /**
+         * Set a process
+         */
         void setProcess(function<void(const size_t frameN,const Mat &frame, Mat &output)> functor)
         {
             _functor = functor;
         }
 
-        
+        /**
+         * Method to execute after defining the Processor's Input, ProcessFrame, and Output(optional)
+         * The input, process and output will run in three different threads and 
+         * will comunicate using BuffedChannels between them.
+         * To exit you should press the ESC key. The SPACE key will allow to pause and/or continue the video
+         * sequence
+         */
         void run();
     };
-    
+
+    /**
+     * Similar to Processor but instead of processing one image a the time.
+     * it waits to have a buffer of images to precess them at once.
+     */
     class BatchProcessor
     {
     private:
@@ -348,33 +392,54 @@ namespace viva {
         {
             _outputWindowName = name;
         }
+        /**
+         * Set an input
+         */
         void setInput(Ptr<Input> &input)
         {
             _input = input;
         }
+        /**
+         * Set an output
+         */
         void setOutput(Ptr<Output> &output)
         {
             _output = output;
         }
+        /**
+         * Make the processor to listen mouse events
+         */
         void listenToMouseEvents()
         {
             _mListener = true;
         }
+        /**
+         * Make the processor to listen to keyboard events
+         */
         void listenToKeyboardEvents()
         {
             _kListener = true;
         }
 
+        /**
+         * Set a batch process
+         */
         void setBatchProcess(Ptr<BatchProcessFrame> &process)
         {
             _batch_process = process;
         }
-        
+
+        /**
+         * Set a batch process
+         */
         void setBatchProcess(function<void(const size_t frameN, const vector<Mat> &frames, Mat &output)> functor)
         {
             _batch_functor = functor;
         }
-        
+
+        /**
+         * Method to run once the input , processframe, and output (optional) are set
+         */
         void run();
     };
     

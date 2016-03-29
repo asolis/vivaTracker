@@ -41,20 +41,26 @@
 
 namespace viva
 {
+    /**
+     * KeyboardListener interface
+     */
     class KeyboardListener
     {
     public:
-        /*
+        /**
          * It will be called only when the user stroke a keyboard key
          * @param key the value of the pressed key
          */
         virtual void keyboardInput(int key) {};
     };
-    
+
+    /**
+     * MouseListener Interface
+     */
     class MouseListener
     {
     public:
-        /*
+        /**
          * Will be triggered at any mouse event, the type of the event
          * is especified in the first integer @param event. 
          * event could be one of the following OpenCV values
@@ -65,19 +71,19 @@ namespace viva
          */
         virtual void mouseInput(int event, int x, int y, int flags){};
         
-        /*
+        /**
          * It will be called only when a mouse left click is triggered
          */
         virtual void leftButtonDown(int x, int y, int flags){};
-        /*
+        /**
          * It will be called only when a right left click is triggered
          */
         virtual void rightButtonDown(int x, int y, int flags){};
-        /*
+        /**
          * It will be called only when a mouse middle click is triggered
          */
         virtual void middleButtonDown(int x, int y, int flags){};
-        /*
+        /**
          * It will be called only when a mouse move is triggered.
          */
         virtual void mouseMove(int x, int y, int flags){};
