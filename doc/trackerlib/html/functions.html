@@ -8,14 +8,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
-<script type="text/javascript" src="navtreedata.js"></script>
-<script type="text/javascript" src="navtree.js"></script>
-<script type="text/javascript">
-  $(document).ready(initResizable);
-  $(window).load(resizeHeight);
-</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -70,7 +62,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li class="current"><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -78,44 +70,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li class="current"><a href="functions.html"><span>All</span></a></li>
       <li><a href="functions_func.html"><span>Functions</span></a></li>
-      <li><a href="functions_vars.html"><span>Variables</span></a></li>
-    </ul>
-  </div>
-  <div id="navrow4" class="tabs3">
-    <ul class="tablist">
-      <li><a href="#index__"><span>_</span></a></li>
-      <li><a href="#index_b"><span>b</span></a></li>
-      <li><a href="#index_c"><span>c</span></a></li>
-      <li><a href="#index_d"><span>d</span></a></li>
-      <li><a href="#index_g"><span>g</span></a></li>
-      <li><a href="#index_i"><span>i</span></a></li>
-      <li><a href="#index_l"><span>l</span></a></li>
-      <li><a href="#index_m"><span>m</span></a></li>
-      <li><a href="#index_o"><span>o</span></a></li>
-      <li><a href="#index_p"><span>p</span></a></li>
-      <li><a href="#index_r"><span>r</span></a></li>
-      <li><a href="#index_s"><span>s</span></a></li>
-      <li><a href="#index_t"><span>t</span></a></li>
-      <li><a href="#index_w"><span>w</span></a></li>
-      <li><a href="#index_y"><span>y</span></a></li>
-      <li class="current"><a href="#index_0x7e"><span>~</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
-<div id="side-nav" class="ui-resizable side-nav-resizable">
-  <div id="nav-tree">
-    <div id="nav-tree-contents">
-      <div id="nav-sync" class="sync"></div>
-    </div>
-  </div>
-  <div id="splitbar" style="-moz-user-select:none;" 
-       class="ui-resizable-handle">
-  </div>
-</div>
-<script type="text/javascript">
-$(document).ready(function(){initNavTree('functions.html','');});
-</script>
-<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -131,23 +88,7 @@ $(document).ready(function(){initNavTree('functions.html','');});
 </div>
 
 <div class="contents">
-<div class="textblock">Here is a list of all class members with links to the classes they belong to:</div>
-
-<h3><a class="anchor" id="index__"></a>- _ -</h3><ul>
-<li>_loc
-: <a class="el" href="class_rect_select_area.html#a0fc2f938515d1507e4dfc75fcc2059f1">RectSelectArea</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_b"></a>- b -</h3><ul>
-<li>blue
-: <a class="el" href="struct_color.html#ad65c713a1bfaa62c7c222379cd9591c9">Color</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
+<div class="textblock">Here is a list of all documented class members with links to the class documentation for each member:</div><ul>
 <li>createInput()
 : <a class="el" href="class_tracker_factory.html#aa041aac3b90d0f3e0ba83619eef2c996">TrackerFactory</a>
 </li>
@@ -157,20 +98,12 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>createTracker()
 : <a class="el" href="class_tracker_factory.html#ac4564fb6b54d28e9237404eeadee4127">TrackerFactory</a>
 </li>
-</ul>
-
-
-<h3><a class="anchor" id="index_d"></a>- d -</h3><ul>
 <li>drawQuadrangle()
 : <a class="el" href="class_draw.html#ae913dc8558c01a647d0ea13508a64d36">Draw</a>
 </li>
 <li>drawSelectedArea()
 : <a class="el" href="class_draw.html#a54a8d0e7bb55b04a043a4826cce7597c">Draw</a>
 </li>
-</ul>
-
-
-<h3><a class="anchor" id="index_g"></a>- g -</h3><ul>
 <li>getBoundingBox()
 : <a class="el" href="class_rect_select_area.html#a9e1cb4be9df22d4654a4b9221aac5496">RectSelectArea</a>
 </li>
@@ -180,124 +113,53 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>getTrackedArea()
 : <a class="el" href="class_tracker.html#a8bf87ac7bfbc0cc9a56f57921e910591">Tracker</a>
 </li>
-<li>green
-: <a class="el" href="struct_color.html#a748ac4a0b884a70627083dc7c03318f5">Color</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_i"></a>- i -</h3><ul>
 <li>initialize()
 : <a class="el" href="class_tracker.html#aa256644c8e09f833ee28eadc5c2abef2">Tracker</a>
 </li>
 <li>isSelected()
 : <a class="el" href="class_rect_select_area.html#a7a9ca80bf2125c894b94176ab42fefa1">RectSelectArea</a>
 </li>
-</ul>
-
-
-<h3><a class="anchor" id="index_l"></a>- l -</h3><ul>
 <li>leftButtonDown()
 : <a class="el" href="class_tracking_process.html#a648f36431e7c0932b4befec1fdbc7e44">TrackingProcess</a>
 </li>
 <li>loadGroundTruth()
 : <a class="el" href="class_tracker_factory.html#a27d44002a9992d4c474cf2da12e93c8e">TrackerFactory</a>
 </li>
-</ul>
-
-
-<h3><a class="anchor" id="index_m"></a>- m -</h3><ul>
 <li>mouseMove()
 : <a class="el" href="class_rect_select_area.html#ab95e2ef179e1bd6659ab5d09aedab066">RectSelectArea</a>
 , <a class="el" href="class_tracking_process.html#a4d1f2b19eda65a24a301ab28e3c56fe2">TrackingProcess</a>
 </li>
-</ul>
-
-
-<h3><a class="anchor" id="index_o"></a>- o -</h3><ul>
 <li>operator()()
 : <a class="el" href="class_tracking_process.html#aa4622c0d0e0f4968fc67b414d5989b25">TrackingProcess</a>
 </li>
-<li>orange
-: <a class="el" href="struct_color.html#ad6a2ba9ca4e4fec8c23a5263abe2b8f7">Color</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_p"></a>- p -</h3><ul>
 <li>parse()
 : <a class="el" href="class_ground_truth.html#a5238ba2a108dc683ab7cfef7c0414e8d">GroundTruth</a>
 </li>
 <li>processFrame()
 : <a class="el" href="class_tracker.html#a442ddc577ec327f1c4bc967c6977a25f">Tracker</a>
 </li>
-<li>purple
-: <a class="el" href="struct_color.html#aa1490dd2cb61e17be61287c61bb41cb7">Color</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
 <li>RectSelectArea()
 : <a class="el" href="class_rect_select_area.html#ad9997b0992c89405457b2adc75c685cd">RectSelectArea</a>
 </li>
-<li>red
-: <a class="el" href="struct_color.html#a3a719c8fa99595a064873ff3735b191e">Color</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_s"></a>- s -</h3><ul>
 <li>setClick()
 : <a class="el" href="class_rect_select_area.html#a3215429d108eb259c8b1c68d5a28af01">RectSelectArea</a>
-</li>
-<li>setTracker()
-: <a class="el" href="class_tracking_process.html#a8e10ca81e6df17389e1bdd7cec852613">TrackingProcess</a>
 </li>
 <li>split()
 : <a class="el" href="class_ground_truth.html#a40810dbf51d6d4e3474baf61bbe72438">GroundTruth</a>
 </li>
-</ul>
-
-
-<h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
-<li>teal
-: <a class="el" href="struct_color.html#aaf469a242ca8e42847a9886f90d498b6">Color</a>
-</li>
 <li>TrackingProcess()
 : <a class="el" href="class_tracking_process.html#a155da76d3cde928fb05e15de76c93640">TrackingProcess</a>
 </li>
-</ul>
-
-
-<h3><a class="anchor" id="index_w"></a>- w -</h3><ul>
-<li>white
-: <a class="el" href="struct_color.html#acc387213feb8880e8fa61c306f6788ae">Color</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_y"></a>- y -</h3><ul>
-<li>yellow
-: <a class="el" href="struct_color.html#a2280055de8d620e851a81f6e2603b5ad">Color</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_0x7e"></a>- ~ -</h3><ul>
 <li>~Tracker()
 : <a class="el" href="class_tracker.html#aa1ec67a8df146a4bd59bed9d9fa09991">Tracker</a>
 </li>
 </ul>
 </div><!-- contents -->
-</div><!-- doc-content -->
 <!-- start footer part -->
-<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-  <ul>
-    <li class="footer">Generated by
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
-  </ul>
-</div>
+<hr class="footer"/><address class="footer"><small>
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.11
+</small></address>
 </body>
 </html>

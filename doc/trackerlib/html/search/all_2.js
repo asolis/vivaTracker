@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['color',['Color',['../struct_color.html',1,'']]],
-  ['createinput',['createInput',['../class_tracker_factory.html#aa041aac3b90d0f3e0ba83619eef2c996',1,'TrackerFactory']]],
-  ['createoutput',['createOutput',['../class_tracker_factory.html#a0200b3f400d64226078288c9c5af5ac9',1,'TrackerFactory']]],
-  ['createtracker',['createTracker',['../class_tracker_factory.html#ac4564fb6b54d28e9237404eeadee4127',1,'TrackerFactory']]]
+  ['getboundingbox',['getBoundingBox',['../class_rect_select_area.html#a9e1cb4be9df22d4654a4b9221aac5496',1,'RectSelectArea']]],
+  ['getdescription',['getDescription',['../class_tracker.html#ab79b261ee8a9244dce11a9f62efc1c53',1,'Tracker']]],
+  ['gettrackedarea',['getTrackedArea',['../class_tracker.html#a8bf87ac7bfbc0cc9a56f57921e910591',1,'Tracker']]],
+  ['groundtruth',['GroundTruth',['../class_ground_truth.html',1,'']]]
 ];
