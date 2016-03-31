@@ -45,7 +45,10 @@ int main(int argc, const char * argv[])
         "{@sequence         |           | url, file, folder, vot_sequence, sequence}"
         "{m method          |skcf       | tracking method: kcf, kcf2, skcf, ncc, tld, struck, ...}"
         "{p pause           |           | start sequence paused}"
-        "{o output          |           | output video filename / folder for images output}"
+        "{n no              |           | not display gui window}"
+        "{g groundtruth     |           | specify groundtruth file}"
+        "{o output          |           | filename for tracking results}"
+        "{v video           |           | output video filename / folder for images output}"
     ;
     
     CommandLineParser parser(argc, argv, keys);
@@ -55,7 +58,7 @@ int main(int argc, const char * argv[])
 
     string sequence = parser.get<string>(0);
     string method   = parser.get<string>("m");
-    string ofilename   = parser.get<string>("o");
+    string ofilename   = parser.get<string>("v");
     
     Ptr<Input> input     = TrackerFactory::createInput(sequence);
     Ptr<Tracker> tracker = TrackerFactory::createTracker(method , argc, argv);
@@ -65,23 +68,39 @@ int main(int argc, const char * argv[])
         return 0;
     
     vector<vector<Point2f> > groundTruth;
-    TrackerFactory::loadGroundTruth(sequence, groundTruth);
+
+    if (parser.has("g"))
+        TrackerFactory::loadGroundTruth(parser.get<string>("g"), groundTruth);
+    else
+        TrackerFactory::findGroundTruth(sequence, groundTruth);
     
-    Ptr<ProcessFrame> process = new TrackingProcess(tracker, groundTruth);
+    Ptr<TrackingProcess> process = new TrackingProcess(tracker, groundTruth);
+
     
     Processor processor;
     if (parser.has("p"))
          processor.startPaused();
    
-    if (output && parser.has("o"))
+    if (output && parser.has("v"))
         processor.setOutput(output);
-    
+
+
+    if (parser.has("n"))
+        processor.showOutput(false);
+
     processor.setInput(input);
-    processor.setProcess(process);
+    Ptr<ProcessFrame> proc = process;
+    processor.setProcess(proc);
     processor.listenToKeyboardEvents();
     processor.listenToMouseEvents();
     processor.run();
 
-    
+    if (parser.has("o"))
+    {
+        vector<vector<Point2f> > data;
+        process->getTrackingInfo(data);
+        GroundTruth::create(parser.get<string>("o"), data);
+    }
+
     return 0;
 }

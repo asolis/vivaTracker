@@ -38,6 +38,22 @@
 string TrackerFactory::SEQ_BASE_FILE     = "sequences.txt";
 string TrackerFactory::GROUND_TRUTH_FILE = "groundtruth.txt";
 
+void GroundTruth::create(const string &file, const vector<vector<Point2f> > &gt)
+{
+    std::ofstream outfile;
+    outfile.open(file.c_str());
+    for (size_t i = 0; i < gt.size(); i++)
+    {
+        for (size_t k = 0; k < gt[i].size(); k++)
+        {
+            outfile <<  (float)gt[i][k].x << ", " <<
+                        (float)gt[i][k].y << ((k == (gt[i].size()-1))?"":", ");
+        }
+        outfile << std::endl;
+    }
+    outfile.close();
+}
+
 void GroundTruth::parse(const string &file, vector<vector<Point2f> > &gt)
 {
     gt.clear();
@@ -326,6 +342,10 @@ Ptr<Tracker> TrackerFactory::createTracker(const string &method, const int argc,
     return tracker;
 }
 void TrackerFactory::loadGroundTruth(const string &sequence, vector<vector<Point2f> > &groundTruth)
+{
+    GroundTruth::parse(sequence, groundTruth);
+}
+void TrackerFactory::findGroundTruth(const string &sequence, vector<vector<Point2f> > &groundTruth)
 {
     string basename;
     if (isVideoFile(sequence))

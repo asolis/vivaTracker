@@ -124,8 +124,8 @@ namespace viva
             guard.unlock();
             return;
         }
+
         _images.push_back(data);
-        //cout<< "Added Image, size: " << _images.size() << endl;
         guard.unlock();
         _consume.notify_one();
     }
@@ -147,8 +147,8 @@ namespace viva
             guard.unlock();
             return false;
         }
-    
         data = _images.front();
+
         _images.pop_front();
         guard.unlock();
         _produce.notify_one();

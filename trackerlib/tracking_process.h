@@ -115,7 +115,7 @@ class TrackingProcess: public ProcessFrame
     RectSelectArea selectedArea; /**< Rectangular area selection in the video sequence */
     bool trackerInitialized;  /**< Identifies if the tracker has been initialized or not */
     vector<vector<Point2f> > groundTruth; /**< ground truth data if available to the sequence*/
-    
+    vector<vector<Point2f> > execution; /**< tracking area recorded for the sequence*/
 public:
 
     /**
@@ -127,7 +127,7 @@ public:
      * The ground-truth area for frame number N can be found by gt[N].
      */
     TrackingProcess(const Ptr<Tracker> &trk, const vector<vector<Point2f> > &gt):
-        tracker(trk), selectedArea(), trackerInitialized(false), groundTruth(gt)
+        tracker(trk), selectedArea(), trackerInitialized(false), groundTruth(gt), execution()
     {}
 
     /*
@@ -160,6 +160,17 @@ public:
      *
      */
     void operator()(const size_t frameN, const Mat &frame, Mat &output);
+
+    /**
+     * Returns the currently tracking area info. 
+     * Annotated areas for each frame in the sequence.
+     * It has the following format for each frame:
+     * x1, y1, x2, y2, x3, y3, x4, y4
+     */
+    void getTrackingInfo(vector<vector<Point2f> > &pts)
+    {
+        pts = execution;
+    }
 };
 
 /**

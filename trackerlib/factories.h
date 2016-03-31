@@ -104,9 +104,15 @@ public:
      */
     static Ptr<Tracker> createTracker(const string &method, const int argc, const char * argv[]);
     /**
-     * loads the groundtruth file from a filename if available into a 2D list of points 
+     * find the groundtruth file from a filename if available into a 2D list of points.
+     * This method will look for a groundtruth.txt file in the same folder of the sequence
+     */
+    static void findGroundTruth(const string &sequence, vector<vector<Point2f> > &groundTruth);
+    /**
+     * loads the groundtruth file from a filename if available into a 2D list of points.
      */
     static void loadGroundTruth(const string &sequence, vector<vector<Point2f> > &groundTruth);
+
 };
 
 /**
@@ -139,6 +145,15 @@ public:
      * @param gt: outputs the ground-truth in a 2D list of points.
      */
     static void  parse(const string &file, vector<vector<Point2f> > &gt);
+
+
+    /**
+     * creates a ground-truth file from a 2D list of points.
+     * @param file: filename of the file to write the ground-truth annotations
+     * @param gt: list of points defining the tracking area for each frame
+     */
+    static void create(const string &file, const vector<vector<Point2f> > &gt);
+
 };
 
 #endif /* defined(__VivaTracker__tracker_factory__) */

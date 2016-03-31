@@ -48,16 +48,21 @@ void ProcessInput::operator()()
     {
         Mat frame;
         auto start_time = chrono::high_resolution_clock::now();
+        
         bool hasFrame = _input->getFrame(frame);
+
         auto end_time = chrono::high_resolution_clock::now();
         auto duration = chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count();
         _channel->setFrequency((float)(1000.0/double(duration)));
         
         if (!hasFrame || frame.empty())
+        {
             _channel->close();
+        }
         else
         {
             _channel->addData(frame);
+
         }
         
     }
@@ -138,7 +143,7 @@ void Processor::run()
     std::thread  _inputThread(ProcessInput(_input, _input_channel));
     thread_guard gi(_inputThread);
     
-    Ptr<BufferedImageChannel> _output_channel = new BufferedImageChannel(_outputBufferSize);
+    Ptr<BufferedImageChannel> _output_channel = new BufferedImageChannel(_inputBufferSize);
     std::thread  _outputThread(ProcessOutput(_output, _output_channel));
     thread_guard go(_outputThread);
     
@@ -146,15 +151,12 @@ void Processor::run()
     size_t frameN = 0;
     Mat freezeFrame;
     bool freezed = false;
-    while (_input_channel->isOpen())
+    while (_input_channel->isOpen() || !_input_channel->empty())
     {
-        
         bool hasFrame = true;
-        
+
+
         Mat frame, frameOut;
-        
-      
-        
         if (!freezed)
         {
             hasFrame = _input_channel->getData(frame);
@@ -175,7 +177,7 @@ void Processor::run()
             if (_showInput && !frame.empty())
                 cv::imshow(_inputWindowName, frame);
             auto start_time = chrono::high_resolution_clock::now();
-            
+
             if (_functor)
                 _functor(frameN, frame, frameOut);
             else if (_process)

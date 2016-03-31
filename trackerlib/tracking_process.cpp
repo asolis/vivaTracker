@@ -78,13 +78,11 @@ bool RectSelectArea::isSelected()
 
 Rect RectSelectArea::getBoundingBox()
 {
-    return boundingRect(_loc);
+    Rect tmp  = boundingRect(_loc);
+    tmp.width -= 1;
+    tmp.height -= 1;
+    return tmp;
 }
-
-
-
-
-
 
 void TrackingProcess::setTracker(const Ptr<Tracker> &trk)
 {
@@ -103,7 +101,6 @@ void TrackingProcess::mouseMove(int x, int y, int flags)
 //@Override
 void TrackingProcess::operator()(const size_t frameN, const Mat &frame, Mat &output)
 {
-
     frame.copyTo(output);
     
     if (frameN < groundTruth.size())
@@ -113,9 +110,10 @@ void TrackingProcess::operator()(const size_t frameN, const Mat &frame, Mat &out
     if (frameN == 0 && groundTruth.size() > 0)
     {
         Rect _area_ = boundingRect(groundTruth[0]);
+        _area_.width -= 1;
+        _area_.height -= 1;
         selectedArea.setClick(_area_.tl().x, _area_.tl().y);
         selectedArea.setClick(_area_.br().x, _area_.br().y);
-        
     }
 
     if (!selectedArea.isSelected())
@@ -146,7 +144,9 @@ void TrackingProcess::operator()(const size_t frameN, const Mat &frame, Mat &out
         vector<Point2f> trackedArea;
         tracker->getTrackedArea(trackedArea);
         Draw::drawQuadrangle(output, trackedArea, Color::red);
-
+        if (frameN == execution.size())
+            execution.push_back(trackedArea);
+        
     }
 }
 
