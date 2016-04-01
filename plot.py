@@ -179,7 +179,7 @@ def successPlot(results, show):
 def getSequencePath(sequence):
 	with open('sequences.txt', 'r') as myfile:
 		folder = myfile.read().replace('\n', '')
-	return '{0}/{1}/groundtruth.txt'.format(folder, sequence)
+	return op.join(folder, sequence, 'groundtruth.txt')
 #
 # Returns true if the following sequence has a groundtruth file 
 def sequenceExists(sequence):
