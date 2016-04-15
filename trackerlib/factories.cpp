@@ -103,8 +103,8 @@ bool TrackerFactory::isWebFile(const string &sequence)
 }
 bool TrackerFactory::isStringSequence(const string &sequence)
 {
-    char res0[sequence.length() * 2];
-    char res1[sequence.length() * 2];
+	char *res0 = new char[sequence.length() * 2];
+	char *res1 = new char[sequence.length() * 2];
     sprintf(res0, sequence.c_str(), 0);
     sprintf(res1, sequence.c_str(), 1);
     string path0(res0);
@@ -117,18 +117,24 @@ bool TrackerFactory::isFolderSequence(const string &sequence)
 }
 string TrackerFactory::constructSequenceFolder(const string &file, const string &sequence)
 {
-    std::ifstream infile(file);
+	std::ifstream infile;
+	infile.open(file);
     std::string line, base;
-    while (std::getline(infile, line))
+	bool once = true;
+    while (std::getline(infile, line) && once)
     {
+		once = false;
+		std::cout << "reading" << std::endl;
         std::istringstream iss(line);
         iss >> base;
         break;
     }
+	cout << line << endl; 
     infile.close();
     base = (base.length() == 0)? ("." + viva::Files::PATH_SEPARATOR) : base;
     ostringstream ss;
     ss << base << sequence << viva::Files::PATH_SEPARATOR;
+	cout << ss.str() << endl;
     return ss.str();
 }
 

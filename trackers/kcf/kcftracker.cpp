@@ -116,7 +116,7 @@ KCFTracker::KCFTracker(bool hog, bool fixed_window, bool multiscale, bool lab)
             output_sigma_factor = 0.1;
 
             _labfeatures = true;
-            _labCentroids = cv::Mat(nClusters, 3, CV_32FC1, &data);
+            _labCentroids = cv::Mat(nClusters, 3, CV_32FC1, &xdata);
             cell_sizeQ = cell_size*cell_size;
         }
         else{

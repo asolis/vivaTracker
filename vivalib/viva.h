@@ -215,7 +215,7 @@ namespace viva {
     public:
         
         Processor():
-        _input(new CameraInput(0)),
+        _input(new CameraInput(-1)),
         _process(new ProcessFrame()),
         _output(Ptr<Output>()),
         _functor(nullptr),
