@@ -124,17 +124,14 @@ string TrackerFactory::constructSequenceFolder(const string &file, const string 
     while (std::getline(infile, line) && once)
     {
 		once = false;
-		std::cout << "reading" << std::endl;
         std::istringstream iss(line);
         iss >> base;
         break;
     }
-	cout << line << endl; 
     infile.close();
     base = (base.length() == 0)? ("." + viva::Files::PATH_SEPARATOR) : base;
     ostringstream ss;
     ss << base << sequence << viva::Files::PATH_SEPARATOR;
-	cout << ss.str() << endl;
     return ss.str();
 }
 
