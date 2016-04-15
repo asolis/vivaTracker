@@ -66,6 +66,7 @@ namespace viva
 		const static int TAB;
 		const static int SPACE;
         const static int NONE;
+        const static int n;
         const static int c;
     };
     
