@@ -374,6 +374,10 @@ void TrackerFactory::findGroundTruth(const string &sequence, vector<vector<Point
     {
         viva::Files::getBasename(sequence, basename);
     }
+    if (isCameraID(sequence))
+    {
+        //TODO
+    }
     
     if (isFolderSequence(sequence))
     {
