@@ -23,7 +23,7 @@ ADD_EXECUTABLE(${PROJECT_NAME} ${files})
 SUBDIRS(vivalib trackerlib)
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/vivalib)
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/trackerlib)
-TARGET_LINK_LIBRARIES( ${PROJECT_NAME} ${OpenCV_LIBS} vivalib trackerlib)
+TARGET_LINK_LIBRARIES( ${PROJECT_NAME} ${OpenCV_LIBS} trackerlib vivalib )
 
 #Needed because Struck tracker
 SET(EIGEN3_INCLUDE_DIRS "" CACHE FILEPATH "Path to eigen3 directory")
