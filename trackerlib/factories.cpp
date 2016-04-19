@@ -381,7 +381,10 @@ void TrackerFactory::findGroundTruth(const string &sequence, vector<vector<Point
     
     if (isFolderSequence(sequence))
     {
-        basename = sequence;
+        if (sequence.back() != viva::Files::PATH_SEPARATOR.front())
+            basename = sequence + viva::Files::PATH_SEPARATOR;
+        else
+            basename = sequence;
     }
     string path = constructSequenceFolder(SEQ_BASE_FILE, sequence);
     if (isFolderSequence(path))
