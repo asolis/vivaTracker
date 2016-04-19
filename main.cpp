@@ -42,7 +42,7 @@ int main(int argc, const char * argv[])
 {
     const String keys =
         "{help h            |           | print this message}"
-        "{@sequence         |           | url, file, folder, vot_sequence, sequence}"
+        "{@sequence         |           | url, file, folder, vot_sequence, sequence, or cameraID}"
         "{m method          |skcf       | tracking method: kcf, kcf2, skcf, ncc, opentld, struck, ...}"
         "{p pause           |           | start sequence paused}"
         "{n no              |           | not display gui window}"
