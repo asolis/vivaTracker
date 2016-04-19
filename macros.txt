@@ -77,7 +77,7 @@ MACRO(CHECK_DATASETS)
 ENDMACRO()
 
 
-SUBDIRLIST(TRACKERS "${CMAKE_SOURCE_DIR}/trackers/")
+SUBDIRLIST(TRACKERS "${CMAKE_SOURCE_DIR}/trackers")
 FOREACH(tracker ${TRACKERS})
 	STRING(TOUPPER "WITH_${tracker}" opt)
 	OPTION(${opt} "Tracker enabled" OFF)
@@ -99,5 +99,5 @@ MACRO(CHECK_TRACKERS)
 ENDMACRO()
 
 
-configure_file(precomp.h.in precomp.h @ONLY)
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+CONFIGURE_FILE(precomp.h.in precomp.h @ONLY)
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
