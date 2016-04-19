@@ -92,7 +92,11 @@ void GroundTruth::parse(const string &file, vector<vector<Point2f> > &gt)
     }
 }
 
-
+bool TrackerFactory::isCameraID(const string &s)
+{
+    return !s.empty() && std::find_if(s.begin(),
+                                s.end(), [](char c) { return !std::isdigit(c); }) == s.end();
+}
 bool TrackerFactory::isVideoFile(const string &sequence)
 {
     return (viva::Files::isFile(sequence));
@@ -157,6 +161,13 @@ Ptr<Input> TrackerFactory::createInput(const string &sequence)
     {
         return new ImageListInput(sequence, Size(-1,-1), -1, 0);
     }
+
+    if (isCameraID(sequence))
+    {
+
+        return new WebStreamInput(std::stoi(sequence));
+    }
+
     string path = constructSequenceFolder(SEQ_BASE_FILE, sequence);
     if (isFolderSequence(path))
     {

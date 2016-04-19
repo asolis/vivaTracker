@@ -76,7 +76,8 @@ class TrackerFactory
 private:
     static string SEQ_BASE_FILE;
     static string GROUND_TRUTH_FILE;
-    
+
+    static bool isCameraID(const string &sequence);
     static bool isVideoFile(const string &sequence);
     static bool isWebFile(const string &sequence);
     static bool isStringSequence(const string &sequence);
