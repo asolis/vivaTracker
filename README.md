@@ -28,3 +28,11 @@ Mac, Linux, Windows
 
 
 For more details and documentations refer to the project's [wiki](https://github.com/asolis/vivaTracker/wiki).
+
+## Acknowledgement
+
+This project was supported by the [VIVALab, University of Ottawa](http://www.site.uottawa.ca/research/viva/). 
+
+## Licensing 
+
+Licensing information can be found inside the **license** folder for each of the project component and trackers. 
