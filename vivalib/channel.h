@@ -142,7 +142,7 @@ namespace viva
         _consume.wait(guard, [&] {
             return (!isOpen() && _images.empty()) || !_images.empty();
         });
-        if (_images.empty() || !isOpen())
+        if (_images.empty() && !isOpen())
         {
             guard.unlock();
             return false;
