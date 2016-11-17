@@ -204,7 +204,7 @@ void Processor::run()
 
             try
             {
-                key = waitKey(1);
+                key = waitKey(1) & 0xFF;
             }
             catch (...)
             {
@@ -355,7 +355,7 @@ void BatchProcessor::run()
 
             try
             {
-                key = waitKey(1);
+                key = waitKey(1) & 0xFF;
             }
             catch (...)
             {
